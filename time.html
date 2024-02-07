@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: transparent;
+            overflow: hidden;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .header {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: glowing 3s infinite;
+        }
+
+        .timeline-container {
+            position: relative;
+            width: 80%;
+            height: 10px;
+            background-color: #222;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            display: none;
+        }
+
+        #glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 20%, rgba(255, 215, 0, 0) 70%);
+            animation: glowing 3s infinite;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .event {
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            background-color: #fff;
+            border: 2px solid #ffcc00;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .memory-box {
+            position: absolute;
+            background-color: #fff;
+            border: 2px solid #ffcc00;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: left;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .memory-box:hover {
+            opacity: 1;
+        }
+
+        #welcome-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            text-align: center;
+            color: black;
+            font-size: 24px;
+        }
+
+        @keyframes glowing {
+            0% { color: #FFD700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.8); }
+            50% { color: #FFA500; text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.8); }
+            100% { color: #FFD700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.8); }
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ffcc00;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            z-index: 2;
+            display: none;
+        }
+
+        .popup p {
+            margin: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Our Journey</title>
+</head>
+<body>
+    <div class="container">
+        <video autoplay muted loop id="background-video">
+            <source src="C:\Users\athen\Downloads\mitsuha-and-taki-comet-your-name-moewalls-com.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="header">
+            <h1>Our Journey</h1>
+        </div>
+
+        <div id="welcome-message">
+            <p>Welcome to Our Journey!</p>
+            <p>Explore the beautiful memories along the timeline.</p>
+        </div>
+
+        <div class="timeline-container">
+            <div id="glow"></div>
+            <div class="event" style="left: 10%;" onmouseover="showMemory(1)" onmouseout="hideMemory(1)" onclick="openPopup(1)"></div>
+            <div class="event" style="left: 30%;" onmouseover="showMemory(2)" onmouseout="hideMemory(2)" onclick="openPopup(2)"></div>
+            <div class="event" style="left: 50%;" onmouseover="showMemory(3)" onmouseout="hideMemory(3)" onclick="openPopup(3)"></div>
+            <div class="event" style="left: 70%;" onmouseover="showMemory(4)" onmouseout="hideMemory(4)" onclick="openPopup(4)"></div>
+            <div class="event" style="left: 90%;" onmouseover="showMemory(5)" onmouseout="hideMemory(5)" onclick="openPopup(5)"></div>
+        </div>
+
+        <div class="memory-box" id="memory-box-1" onclick="openPopup(1)">
+            <p>Memory 1: Something special</p>
+        </div>
+        <div class="memory-box" id="memory-box-2" onclick="openPopup(2)">
+            <p>Memory 2: Another beautiful moment</p>
+        </div>
+        <div class="memory-box" id="memory-box-3" onclick="openPopup(3)">
+            <p>Memory 3: Cherished time together</p>
+        </div>
+        <div class="memory-box" id="memory-box-4" onclick="openPopup(4)">
+            <p>Memory 4: Unforgettable experience</p>
+        </div>
+        <div class="memory-box" id="memory-box-5" onclick="openPopup(5)">
+            <p>Memory 5: Special milestone</p>
+        </div>
+
+        <div class="popup" id="popup">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <p id="popup-content">Memory Details</p>
+        </div>
+    </div>
+
+    <script>
+        function showMemory(memoryNumber) {
+            var memoryBox = document.getElementById("memory-box-" + memoryNumber);
+            memoryBox.style.opacity = 1;
+        }
+
+        function hideMemory(memoryNumber) {
+            var memoryBox = document.getElementById("memory-box-" + memoryNumber);
+            memoryBox.style.opacity = 0;
+        }
+
+        function openPopup(memoryNumber) {
+            var popup = document.getElementById("popup");
+            var popupContent = document.getElementById("popup-content");
+
+            // Set memory details in the popup content
+            switch (memoryNumber) {
+                case 1:
+                    popupContent.innerHTML = "Memory 1: Something special";
+                    break;
+                case 2:
+                    popupContent.innerHTML = "Memory 2: Another beautiful moment";
+                    break;
+                case 3:
+                    popupContent.innerHTML = "Memory 3: Cherished time together";
+                    break;
+                case 4:
+                    popupContent.innerHTML = "Memory 4: Unforgettable experience";
+                    break;
+                case 5:
+                    popupContent.innerHTML = "Memory 5: Special milestone";
+                    break;
+                default:
+                    popupContent.innerHTML = "Memory Details";
+                    break;
+            }
+
+            popup.style.display = "block";
+        }
+
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+        }
+
+        // Display the welcome message
+        document.getElementById("welcome-message").style.display = "block";
+
+        // Function to hide the welcome message after a few seconds and show the timeline
+        setTimeout(function() {
+            document.getElementById("welcome-message").style.display = "none";
+            document.querySelector('.timeline-container').style.display = "block";
+        }, 5000);
+    </script>
+</body>
+</html>
