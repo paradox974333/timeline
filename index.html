@@ -140,13 +140,20 @@
             right: 10px;
             cursor: pointer;
         }
+
+        /* Additional styles for mobile optimization */
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            body {
+                display: none; /* Hide the entire content when in portrait mode */
+            }
+        }
     </style>
     <title>Our Journey</title>
 </head>
 <body>
     <div class="container">
         <video autoplay muted loop id="background-video">
-            <source src="f9c21a5c-0688-4f7d-b9da-e7f6ad58f093 (1).mp4" type="video/mp4">
+            <source src="C:\Users\athen\Downloads\mitsuha-and-taki-comet-your-name-moewalls-com.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
 
