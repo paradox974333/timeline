@@ -38,8 +38,7 @@
             transition: opacity 0.5s ease;
         }
 
-       
-               #start-button {
+  #start-button {
     cursor: pointer;
     background-color: #ff9900; /* Slightly darker yellow */
     color: black; /* Updated text color */
@@ -54,8 +53,7 @@
     background-size: cover; /* Adjust this property based on your image size preference */
     text-align: ; /* Center text horizontally */
     line-height: 40px; /* Adjust this property based on your image and button size */
-        }
-
+	}
         @keyframes glowing {
             0% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
             50% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
@@ -102,13 +100,13 @@
         <div class="memory-box" ontouchstart="window.open('memory1.html', '_blank')" onclick="window.open('memory1.html', '_blank')">
             <p>everything about u💕💕</p>
         </div>
-        <div class="memory-box" ontouchstart="window.open('More about u 🦋✨.html', '_blank')" >
+        <div class="memory-box" ontouchstart="window.open('memory2.html', '_blank')" onclick="window.open('memory2.html', '_blank')">
             <p>more about u😍❤️</p>
         </div>
         <div class="memory-box" ontouchstart="window.open('memory3.html', '_blank')" onclick="window.open('memory3.html', '_blank')">
             <p>the feelings i cant express🥺🥺</p>
         </div>
-        <div class="memory-box" ontouchstart="window.open('memory2.html', '_blank')" onclick="window.open('memory4.html', '_blank')">
+        <div class="memory-box" ontouchstart="window.open('memory4.html', '_blank')" onclick="window.open('memory4.html', '_blank')">
             <p>Memory 4</p>
         </div>
         <div class="memory-box" ontouchstart="window.open('memory5.html', '_blank')" onclick="window.open('memory5.html', '_blank')">
@@ -117,17 +115,22 @@
     </div>
 
     <script>
-        function showMemoryBoxes() {
-            var memoryBoxes = document.querySelectorAll('.memory-box');
-            memoryBoxes.forEach(function (box, index) {
-                setTimeout(function () {
-                    box.style.opacity = 1;
-                }, index * 500);
-            });
+    function showMemoryBoxes() {
+        var memoryBoxes = document.querySelectorAll('.memory-box');
+        memoryBoxes.forEach(function (box, index) {
+            setTimeout(function () {
+                box.style.opacity = 1;
+            }, index * 500);
+        });
 
-            document.getElementById('welcome-message').style.opacity = 0;
-        }
-    </script>
+        var welcomeMessage = document.getElementById('welcome-message');
+        welcomeMessage.style.transition = 'opacity 0.1s ease-out, transform 0.25s ease-out';
+        welcomeMessage.style.opacity = 0;
+        welcomeMessage.style.transform = 'translateX(-150%)'; // Move off-screen to the left
+    }
+</script>
+
+
 
 </body>
 </html>
