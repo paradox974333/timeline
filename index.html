@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=1, user-scalable=no">
     <style>
         body {
- font-family: 'Roboto', Arial, sans-serif; /* Updated font */
+            font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background:  url('peakpx.jpg') no-repeat center center fixed;
+            background:  url('C:/Users/athen/Downloads/peakpx.jpg') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
             color: #333;
@@ -22,7 +22,6 @@
             justify-content: center;
             flex-direction: column;
             height: 100%;
-             /* Lightened background */
             overflow: hidden;
         }
 
@@ -32,14 +31,15 @@
             left: 50%;
             transform: translateX(-50%) translateY(-50%);
             text-align: center;
-            color: #333; /* Updated text color */
-            font-size: 18px; /* Increased font size */
+            color: #333;
+            font-size: 18px;
             z-index: 2;
             opacity: 1;
             transition: opacity 0.5s ease;
         }
 
-        #start-button {
+       
+               #start-button {
     cursor: pointer;
     background-color: #ff9900; /* Slightly darker yellow */
     color: black; /* Updated text color */
@@ -54,7 +54,8 @@
     background-size: cover; /* Adjust this property based on your image size preference */
     text-align: ; /* Center text horizontally */
     line-height: 40px; /* Adjust this property based on your image and button size */
-}
+        }
+
         @keyframes glowing {
             0% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
             50% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
@@ -63,8 +64,8 @@
 
         .memory-box {
             position: relative;
-            background-color: rgba(255, 255, 255, 0.9); /* Lightened background */
-            border: 2px solid #ff9900; /* Slightly darker yellow */
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ff9900;
             border-radius: 8px;
             padding: 20px;
             text-align: left;
@@ -75,45 +76,15 @@
             transform: translateX(0%);
             left: 0%;
             z-index: 1;
-            pointer-events: none;
+            pointer-events: auto;
             animation: glowing 2s infinite;
         }
 
-        .open {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            z-index: 4;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: #ff9900; /* Slightly darker yellow */
-            font-size: 18px;
-        }
-
-        @media only screen and (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-        }
-
-        @media only screen and (max-width: 428px) {
-            .container {
-                padding: 0 10px;
-            }
-        }
         .heading {
-            font-size: 15px; /* Adjust the font size as needed */
+            font-size: 15px;
             font-weight: bold;
-            color: pink; /* Text color */
-            margin-bottom: 30px; /* Add some space between heading and memory boxes */
+            color: pink;
+            margin-bottom: 30px;
         }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
@@ -125,23 +96,22 @@
         <div id="welcome-message">
             <h1>Welcome to Our Journey!</h1>
             <p>Explore the beautiful memories along the way.</p>
-            <button id="start-button" onclick="showMemoryBoxes()">Click Here</button>
+            <button id="start-button" ontouchstart="showMemoryBoxes()" onclick="showMemoryBoxes()">Click Here</button>
         </div>
         <h2 class="heading">TO AKSHATA(the girl who made every other girl unattractive🥺🥺)</h2>
-
-        <div class="memory-box" onclick="openMemoryLink('memory1.html')">
+        <div class="memory-box" ontouchstart="window.open('memory1.html', '_blank')" onclick="window.open('memory1.html', '_blank')">
             <p>everything about u💕💕</p>
         </div>
-        <div class="memory-box" onclick="openMemoryLink('memory2.html')">
+        <div class="memory-box" ontouchstart="window.open('memory2.html', '_blank')" onclick="window.open('memory2.html', '_blank')">
             <p>more about u😍❤️</p>
         </div>
-        <div class="memory-box" onclick="openMemoryLink('memory3.html')">
+        <div class="memory-box" ontouchstart="window.open('memory3.html', '_blank')" onclick="window.open('memory3.html', '_blank')">
             <p>the feelings i cant express🥺🥺</p>
         </div>
-        <div class="memory-box" onclick="openMemoryLink('memory4.html')">
+        <div class="memory-box" ontouchstart="window.open('memory4.html', '_blank')" onclick="window.open('memory4.html', '_blank')">
             <p>Memory 4</p>
         </div>
-        <div class="memory-box" onclick="openMemoryLink('memory5.html')">
+        <div class="memory-box" ontouchstart="window.open('memory5.html', '_blank')" onclick="window.open('memory5.html', '_blank')">
             <p>Memory 5</p>
         </div>
     </div>
@@ -152,25 +122,12 @@
             memoryBoxes.forEach(function (box, index) {
                 setTimeout(function () {
                     box.style.opacity = 1;
-                    box.style.pointerEvents = 'auto';
                 }, index * 500);
             });
 
             document.getElementById('welcome-message').style.opacity = 0;
         }
-
-        function openMemoryLink(link) {
-            var closeButton = document.createElement('div');
-            closeButton.classList.add('close-button');
-            closeButton.innerHTML = '&times;';
-            closeButton.onclick = function () {
-                this.remove();
-            };
-
-            document.body.appendChild(closeButton);
-
-            window.open(link, '_blank');
-        }
     </script>
+
 </body>
 </html>
