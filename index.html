@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ font-family: 'Roboto', Arial, sans-serif; /* Updated font */
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: url('peakpx.jpg') no-repeat center center fixed;
+            background:  url('C:\\Users\\athen\\Downloads\\peakpx.jpg') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
+            color: #333;
         }
 
         .container {
@@ -21,7 +22,7 @@
             justify-content: center;
             flex-direction: column;
             height: 100%;
-            background-color: transparent;
+             /* Lightened background */
             overflow: hidden;
         }
 
@@ -31,49 +32,49 @@
             left: 50%;
             transform: translateX(-50%) translateY(-50%);
             text-align: center;
-            color: black;
-            font-size: 24px;
+            color: #333; /* Updated text color */
+            font-size: 18px; /* Increased font size */
             z-index: 2;
-            opacity: 1; /* Start with opacity 1 */
-            transition: opacity 0.5s ease; /* Add opacity transition */
+            opacity: 1;
+            transition: opacity 0.5s ease;
         }
 
         #start-button {
             cursor: pointer;
-            background-color: #ffcc00;
-            color: black;
+            background-color: #ff9900; /* Slightly darker yellow */
+            color: #333; /* Updated text color */
             padding: 10px 20px;
             font-size: 18px;
             border: none;
             border-radius: 5px;
             margin-top: 20px;
-            z-index: 3; /* Ensure the button is above memory boxes */
+            z-index: 3;
         }
 
-          @keyframes glowing {
-        0% { box-shadow: 0 0 25px rgba(255, 204, 0, 0.7); }
-        50% { box-shadow: 0 0 25px rgba(255, 204, 0, 0.7); }
-        100% { box-shadow: 0 0 15px rgba(255, 204, 0, 0.7); }
-    }
+        @keyframes glowing {
+            0% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
+            50% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
+            100% { box-shadow: 0 0 15px rgba(255, 153, 0, 0.7); }
+        }
 
-    .memory-box {
-        position: relative;
-        background-color: rgba(255, 255, 255, 0.7);
-        border: 2px solid #ffcc00;
-        border-radius: 8px;
-        padding: 20px;
-        text-align: left;
-        margin: 20px;
-        opacity: 0;
-        cursor: pointer;
-        transition: all 0.5s ease;
-        transform: translateX(0%);
-        left:0%;
-        z-index: 1;
-        pointer-events: none;
-        animation: glowing 2s infinite; /* Apply the glowing animation */
-    }
-    }
+        .memory-box {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.9); /* Lightened background */
+            border: 2px solid #ff9900; /* Slightly darker yellow */
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            margin: 20px;
+            opacity: 0;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            transform: translateX(0%);
+            left: 0%;
+            z-index: 1;
+            pointer-events: none;
+            animation: glowing 2s infinite;
+        }
+
         .open {
             position: fixed;
             top: 0;
@@ -81,7 +82,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(255, 255, 255, 0.9);
-            z-index: 4; /* Ensure the overlay is above everything */
+            z-index: 4;
         }
 
         .close-button {
@@ -89,31 +90,30 @@
             top: 10px;
             right: 10px;
             cursor: pointer;
-            color: #ffcc00;
+            color: #ff9900; /* Slightly darker yellow */
             font-size: 18px;
         }
 
         @media only screen and (max-width: 768px) {
-            /* Adjust styles for screens with a maximum width of 768px */
             .container {
                 padding: 0 20px;
             }
         }
 
         @media only screen and (max-width: 428px) {
-            /* Adjust styles for screens with a maximum width of 428px (iPhone 12 Pro Max) */
             .container {
                 padding: 0 10px;
             }
         }
     </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <title>Our Journey</title>
 </head>
 <body>
 
     <div class="container">
         <div id="welcome-message">
-            <p>Welcome to Our Journey!</p>
+            <h1>Welcome to Our Journey!</h1>
             <p>Explore the beautiful memories along the way.</p>
             <button id="start-button" onclick="showMemoryBoxes()">Click Here</button>
         </div>
@@ -140,12 +140,12 @@
             var memoryBoxes = document.querySelectorAll('.memory-box');
             memoryBoxes.forEach(function (box, index) {
                 setTimeout(function () {
-                    box.style.opacity = 1; // Fade in each box
-                    box.style.pointerEvents = 'auto'; // Enable pointer events for memory boxes
-                }, index * 500); // Delay each box by 500 milliseconds
+                    box.style.opacity = 1;
+                    box.style.pointerEvents = 'auto';
+                }, index * 500);
             });
 
-            document.getElementById('welcome-message').style.opacity = 0; // Hide welcome message
+            document.getElementById('welcome-message').style.opacity = 0;
         }
 
         function openMemoryLink(link) {
@@ -153,12 +153,11 @@
             closeButton.classList.add('close-button');
             closeButton.innerHTML = '&times;';
             closeButton.onclick = function () {
-                this.remove(); // Remove close button
+                this.remove();
             };
 
             document.body.appendChild(closeButton);
 
-            // Open new page in a new window or tab
             window.open(link, '_blank');
         }
     </script>
