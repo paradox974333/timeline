@@ -25,21 +25,6 @@
             overflow: hidden;
         }
 
-        .memory-box {
-            overflow: hidden;
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.7); /* Adjust the alpha value for transparency */
-            border: 2px solid #ffcc00;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: left;
-            margin: 20px;
-            opacity: 0; /* Start with opacity 0 */
-            cursor: pointer;
-            transition: all 0.5s ease;
-            transform: translateX(-100%); /* Start off-screen */
-        }
-
         #welcome-message {
             position: absolute;
             top: 50%;
@@ -49,71 +34,133 @@
             color: black;
             font-size: 24px;
             z-index: 2;
+            opacity: 1; /* Start with opacity 1 */
+            transition: opacity 0.5s ease; /* Add opacity transition */
         }
 
-        @keyframes glowing {
-            0% { color: #FFD700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.8); }
-            50% { color: #FFA500; text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.8); }
-            100% { color: #FFD700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.8); }
+        #start-button {
+            cursor: pointer;
+            background-color: #ffcc00;
+            color: black;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            z-index: 3; /* Ensure the button is above memory boxes */
+        }
+
+          @keyframes glowing {
+        0% { box-shadow: 0 0 25px rgba(255, 204, 0, 0.7); }
+        50% { box-shadow: 0 0 25px rgba(255, 204, 0, 0.7); }
+        100% { box-shadow: 0 0 15px rgba(255, 204, 0, 0.7); }
+    }
+
+    .memory-box {
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: 2px solid #ffcc00;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: left;
+        margin: 20px;
+        opacity: 0;
+        cursor: pointer;
+        transition: all 0.5s ease;
+        transform: translateX(0%);
+        left:0%;
+        z-index: 1;
+        pointer-events: none;
+        animation: glowing 2s infinite; /* Apply the glowing animation */
+    }
+    }
+        .open {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 4; /* Ensure the overlay is above everything */
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #ffcc00;
+            font-size: 18px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            /* Adjust styles for screens with a maximum width of 768px */
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        @media only screen and (max-width: 428px) {
+            /* Adjust styles for screens with a maximum width of 428px (iPhone 12 Pro Max) */
+            .container {
+                padding: 0 10px;
+            }
         }
     </style>
     <title>Our Journey</title>
 </head>
-<body> 
+<body>
 
     <div class="container">
         <div id="welcome-message">
             <p>Welcome to Our Journey!</p>
             <p>Explore the beautiful memories along the way.</p>
+            <button id="start-button" onclick="showMemoryBoxes()">Click Here</button>
         </div>
 
-        <div class="memory-box" onclick="expandMemoryBox(this)">
+        <div class="memory-box" onclick="openMemoryLink('memory1.html')">
             <p>Memory 1: Something special</p>
         </div>
-        <div class="memory-box" onclick="expandMemoryBox(this)">
+        <div class="memory-box" onclick="openMemoryLink('memory2.html')">
             <p>Memory 2: Another beautiful moment</p>
         </div>
-        <div class="memory-box" onclick="expandMemoryBox(this)">
+        <div class="memory-box" onclick="openMemoryLink('memory3.html')">
             <p>Memory 3: Cherished time together</p>
         </div>
-        <div class="memory-box" onclick="expandMemoryBox(this)">
+        <div class="memory-box" onclick="openMemoryLink('memory4.html')">
             <p>Memory 4: Unforgettable experience</p>
         </div>
-        <div class="memory-box" onclick="expandMemoryBox(this)">
+        <div class="memory-box" onclick="openMemoryLink('memory5.html')">
             <p>Memory 5: Special milestone</p>
         </div>
     </div>
 
     <script>
-        function expandMemoryBox(box) {
-            var allMemoryBoxes = document.querySelectorAll('.memory-box');
-            allMemoryBoxes.forEach(function (memoryBox) {
-                if (memoryBox !== box) {
-                    memoryBox.style.opacity = 0; // Fade out other boxes
-                    memoryBox.style.transform = "translateX(-100%)"; // Move other boxes off-screen
-                }
-            });
-
-            if (box.style.transform === "translateX(-100%)") {
-                box.style.transform = "translateX(0)";
-                box.style.opacity = 1; // Fade in the clicked box
-            } else {
-                box.style.transform = "translateX(-100%)";
-                box.style.opacity = 0; // Fade out the clicked box
-            }
-        }
-
-        // Function to hide the welcome message after a few seconds and show the memory boxes
-        setTimeout(function() {
-            document.getElementById("welcome-message").style.display = "none";
-
+        function showMemoryBoxes() {
             var memoryBoxes = document.querySelectorAll('.memory-box');
-            memoryBoxes.forEach(function(box, index) {
-                setTimeout(function() {
+            memoryBoxes.forEach(function (box, index) {
+                setTimeout(function () {
                     box.style.opacity = 1; // Fade in each box
+                    box.style.pointerEvents = 'auto'; // Enable pointer events for memory boxes
                 }, index * 500); // Delay each box by 500 milliseconds
             });
-        }, 5000);
+
+            document.getElementById('welcome-message').style.opacity = 0; // Hide welcome message
+        }
+
+        function openMemoryLink(link) {
+            var closeButton = document.createElement('div');
+            closeButton.classList.add('close-button');
+            closeButton.innerHTML = '&times;';
+            closeButton.onclick = function () {
+                this.remove(); // Remove close button
+            };
+
+            document.body.appendChild(closeButton);
+
+            // Open new page in a new window or tab
+            window.open(link, '_blank');
+        }
     </script>
 </body>
 </html>
