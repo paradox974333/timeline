@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory 5 - Our Enchanting Journey</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('https://w0.peakpx.com/wallpaper/308/663/HD-wallpaper-mitsuha-and-taki-anime-movie-anime-cute-anime-love-mitsuha-name-taki-your-your-name.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .memory-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: rgba(255, 78, 80, 0.9);
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: rgba(85, 85, 85, 0.9);
+        }
+
+        .hidden-content {
+            display: none;
+            margin-top: 20px;
+            color: rgba(102, 102, 102, 0.9);
+        }
+
+        .clickable {
+            cursor: pointer;
+            text-decoration: underline;
+            color: rgba(255, 78, 80, 0.9);
+            font-weight: bold;
+        }
+
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .timeline-event {
+            position: relative;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            text-align: left;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            overflow: hidden;
+            z-index: 1;
+            transform-origin: center;
+            perspective: 1000px;
+        }
+
+        .timeline-event:hover {
+            transform: scale(1.05) rotateY(5deg);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .event-date {
+            font-weight: bold;
+            color: rgba(255, 78, 80, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .event-description {
+            margin-top: 10px;
+            color: rgba(85, 85, 85, 0.9);
+        }
+
+        .gif-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .cute-gif {
+            width: 120px;
+            height: auto;
+            margin: 0 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .cute-gif:hover {
+            transform: scale(1.1);
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+            z-index: 0;
+        }
+
+        img:hover {
+            transform: scale(1.1);
+        }
+
+        .signature {
+            font-style: italic;
+            color: rgba(136, 136, 136, 0.9);
+            margin-top: 30px;
+            font-size: 18px;
+        }
+		 .gif-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .corner-gif {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="memory-container">
+        <h1>Memory 5 - Our Enchanting Moments</h1>
+        <p>Dear Akshata,</p>
+        <p>Every moment spent with you is a <span class="clickable" onclick="revealHidden('captivating')">captivating</span> experience, and each interaction becomes a cherished <span class="clickable" onclick="revealHidden('moment')">moment</span>. Your presence lights up my world, and I'm grateful for the joy you bring into my life.</p>
+
+        <div id="captivating" class="hidden-content">
+            <p>Your charm and grace are truly captivating. The way you carry yourself and the warmth in your smile make every encounter with you a memorable experience.</p>
+        </div>
+
+        <div id="moment" class="hidden-content">
+            <p>From our first conversation to every shared laugh, each <span class="clickable" onclick="revealHidden('chat')">chat</span> is a highlight. Even the <span class="clickable" onclick="revealHidden('silence')">silence</span> between us speaks volumes, creating a collection of beautiful moments.</p>
+        </div>
+
+        <div id="chat" class="hidden-content">
+            <p>Our chats, no matter how small, are special. I find joy in our conversations, and I appreciate the connection we're building with every message we exchange.</p>
+        </div>
+
+        <div id="silence" class="hidden-content">
+            <p>The comfortable silence we share is a testament to the ease of being around you. It's in those quiet moments that I feel a unique connection and a sense of peace.</p>
+        </div>
+
+        <!-- Timeline of Special Moments -->
+        <div class="timeline-container" id="timelineContainer">
+            <div class="timeline-event" onclick="openImage('moment1.jpg')">
+                <p class="event-date">october 13,2023</p>
+                <p class="event-description">the first day u texted me</p>
+                <img src="moment1.jpg" alt="First Meeting" />
+            </div>
+
+            <div class="timeline-event" onclick="openImage('moment2.jpg')">
+                <p class="event-date">23rd october 2023</p>
+                <p class="event-description">we talked like 5 hours on phone that too form night 12 to morning 5</p>
+                <img src="moment2.jpg" alt="Day Trip" />
+            </div>
+
+            <div class="timeline-event" onclick="openImage('moment3.mp4')">
+                <p class="event-date">October 20, 2023</p>
+                <p class="event-description">The day you shared your dance video.</p>
+                <video width="100%" height="auto" controls autoplay>
+                    <source src="moment3.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="timeline-event" onclick="openImage('moment4.jpg')">
+                <p class="event-date">25rd october 2023</p>
+                <p class="event-description">the first photo i clicked of urs</p>
+                <img src="moment4.jpg" alt="Day Trip" />
+            </div>
+            <div class="timeline-event" onclick="openImage('moment5.jpg')">
+                <p class="event-date">25th november 2023</p>
+                <p class="event-description">our first pic together</p>
+                <img src="moment5.jpg" alt="Day Trip" />
+
+                <div class="timeline-event" onclick="openImage('moment7.jpg')">
+                    <p class="event-date">25th november 2023</p>
+                    <p class="event-description">ideathon remeber?</p>
+                    <img src="moment7.jpg" alt="Day Trip" />
+            </div>
+            <div class="timeline-event" onclick="openImage('moment6.mp4')">
+                <p class="event-date">december 9, 2023</p>
+                <p class="event-description">librerl studies was fun right??</p>
+                <video width="100%" height="auto" controls autoplay>
+                    <source src="moment6.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            <!-- Add more timeline events with images as needed -->
+        </div>
+
+
+
+        <p>May our journey continue to be filled with enchanting moments and boundless love.</p>
+        <p class="signature">Warm regards,<br>manoj l</p>
+    </div>
+
+    <script>
+        function revealHidden(id) {
+            var hiddenContent = document.getElementById(id);
+            if (hiddenContent.style.display === "none") {
+                hiddenContent.style.display = "block";
+            } else {
+                hiddenContent.style.display = "none";
+            }
+        }
+
+        function openImage(imageUrl) {
+            window.open(imageUrl, '_blank');
+        }
+		
+        // Array of GIF URLs
+        var gifs = [
+            "https://media1.tenor.com/m/tYS9bZHRNdgAAAAC/kristigocouple2024.gif",
+            "https://media.tenor.com/qzfYux1DBlAAAAAi/bear-cute.gif",
+            "https://media.tenor.com/vmvaMX3F-3IAAAAi/hehehehe.gif",
+            "https://media.tenor.com/uSUkySupnnUAAAAi/tkthao219-bubududu.gif",
+            "https://media.tenor.com/D1CAg1rBD6wAAAAi/tkthao219-bubududu.gif",
+            "https://media1.tenor.com/m/xQ-hL2dacr8AAAAC/give-me-attention-love-me.gif",
+            "https://media1.tenor.com/m/eSEYqdIvFPYAAAAC/mocha-and-milk-milk-and-mocha-bear.gif"
+        ];
+
+        // Function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Shuffle the GIF array
+        gifs = shuffleArray(gifs);
+
+        // Append GIFs to each timeline event
+        var timelineContainer = document.getElementById("timelineContainer");
+        var timelineEvents = timelineContainer.getElementsByClassName("timeline-event");
+
+        for (var i = 0; i < timelineEvents.length; i++) {
+            // Create a div for each corner
+            for (var j = 0; j < 4; j++) {
+                var cornerDiv = document.createElement("div");
+                cornerDiv.className = "gif-corner";
+                cornerDiv.style.top = j < 2 ? "0" : "auto";
+                cornerDiv.style.bottom = j < 2 ? "auto" : "0";
+                cornerDiv.style.left = j % 2 === 0 ? "0" : "auto";
+                cornerDiv.style.right = j % 2 === 0 ? "auto" : "0";
+
+                // Append a GIF to each corner
+                var img = document.createElement("img");
+                img.src = gifs[i % gifs.length];
+                img.alt = "GIF";
+                img.className = "corner-gif";
+                cornerDiv.appendChild(img);
+
+                timelineEvents[i].appendChild(cornerDiv);
+            }
+        }
+    </script>
+
+</body>
+</html>
+  
