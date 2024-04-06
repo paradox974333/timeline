@@ -4,159 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory 5 - Our Enchanting Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: url('https://w0.peakpx.com/wallpaper/308/663/HD-wallpaper-mitsuha-and-taki-anime-movie-anime-cute-anime-love-mitsuha-name-taki-your-your-name.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: rgba(255, 255, 255, 0.9);
-            text-align: center;
-            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
             margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: #fff;
+            padding: 20px 0;
+            text-align: center;
+            color: #000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .memory-container {
             max-width: 800px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 40px;
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        h1 {
-            color: rgba(255, 78, 80, 0.9);
-            font-size: 3em;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         p {
-            font-size: 20px;
+            font-size: 18px;
             line-height: 1.6;
             margin-bottom: 20px;
-            color: black;
+            color: #666;
         }
 
         .hidden-content {
             display: none;
             margin-top: 20px;
-            color: rgba(102, 102, 102, 0.9);
+            color: #999;
         }
 
         .clickable {
             cursor: pointer;
             text-decoration: underline;
-            color: rgba(255, 78, 80, 0.9);
+            color: #007aff;
             font-weight: bold;
         }
 
         .timeline-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
             margin-top: 40px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
-            padding: 20px;
         }
 
         .timeline-event {
-            position: relative;
-            padding: 20px;
+            width: 300px;
+            background-color: #f8f8f8;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             margin: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            max-width: 100%;
-            text-align: left;
-            background-color: rgba(255, 255, 255, 0.9);
-            transition: transform 0.3s ease-in-out;
-            cursor: pointer;
             overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            position: relative;
             z-index: 1;
-            transform-origin: center;
-            perspective: 1000px;
         }
 
         .timeline-event:hover {
-            transform: scale(1.05) rotateY(5deg);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
         }
 
         .event-date {
+            background: #007aff;
+            color: #fff;
+            padding: 10px;
+            margin: 0;
             font-weight: bold;
-            color: rgba(255, 78, 80, 0.9);
-            margin-bottom: 8px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
         }
 
         .event-description {
-            margin-top: 10px;
-            color: rgba(85, 85, 85, 0.9);
-        }
-
-        .gif-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-
-        .cute-gif {
-            width: 120px;
-            height: auto;
-            margin: 0 15px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .cute-gif:hover {
-            transform: scale(1.1);
+            padding: 20px;
+            margin: 0;
+            color: #333;
         }
 
         img {
             max-width: 100%;
-            border-radius: 15px;
-            margin-top: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            height: auto;
+            border-radius: 20px 20px 0 0;
             transition: transform 0.3s ease-in-out;
-            z-index: 0;
         }
 
         img:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .signature {
             font-style: italic;
-            color: rgba(136, 136, 136, 0.9);
+            color: #999;
             margin-top: 30px;
-            font-size: 18px;
-        }
-		 .gif-corner {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .corner-gif {
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
+            font-size: 16px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <div class="memory-container">
+    <div class="header">
         <h1>Our Enchanting Moments</h1>
+        <p>Cherishing the beautiful journey together</p>
+    </div>
+
+    <div class="memory-container">
         <p>Dear Akshata,</p>
         <p>Every moment spent with you is a <span class="clickable" onclick="revealHidden('captivating')">captivating</span> experience, and each interaction becomes a cherished <span class="clickable" onclick="revealHidden('moment')">moment</span>. Your presence lights up my world, and I'm grateful for the joy you bring into my life.</p>
 
@@ -177,57 +146,58 @@
         </div>
 
         <!-- Timeline of Special Moments -->
-        <div class="timeline-container" id="timelineContainer">
+        <div class="timeline-container">
             <div class="timeline-event" onclick="openImage('moment1.jpg')">
-                <p class="event-date">october 13,2023</p>
-                <p class="event-description">the first day u texted me</p>
                 <img src="moment1.jpg" alt="First Meeting" />
+                <p class="event-date">October 13, 2023</p>
+                <p class="event-description">The first day you texted me.</p>
             </div>
 
             <div class="timeline-event" onclick="openImage('moment2.jpg')">
-                <p class="event-date">23rd october 2023</p>
-                <p class="event-description">we talked like 5 hours on phone that too form night 12 to morning 5</p>
                 <img src="moment2.jpg" alt="Day Trip" />
+                <p class="event-date">October 23, 2023</p>
+                <p class="event-description">We talked for 5 hours on the phone from midnight to 5 in the morning.</p>
             </div>
 
             <div class="timeline-event" onclick="openImage('moment3.mp4')">
-                <p class="event-date">October 20, 2023</p>
-                <p class="event-description">The day you shared your dance video.</p>
-                <video width="100%" height="auto" controls >
+                <video width="100%" controls>
                     <source src="moment3.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+                <p class="event-date">October 20, 2023</p>
+                <p class="event-description">The day you shared your dance video.</p>
             </div>
-            <div class="timeline-event" onclick="openImage('moment4.jpg')">
-                <p class="event-date">25rd october 2023</p>
-                <p class="event-description">the first photo i clicked of urs</p>
-                <img src="moment4.jpg" alt="Day Trip" />
-            </div>
-            <div class="timeline-event" onclick="openImage('moment5.jpg')">
-                <p class="event-date">25th november 2023</p>
-                <p class="event-description">our first pic together</p>
-                <img src="moment5.jpg" alt="Day Trip" />
-		  </div>  
 
-                <div class="timeline-event" onclick="openImage('moment7.jpg')">
-                    <p class="event-date">3rd november 2023</p>
-                    <p class="event-description">ideathon remeber?</p>
-                    <img src="moment7.jpg" alt="Day Trip" />
+            <div class="timeline-event" onclick="openImage('moment4.jpg')">
+                <img src="moment4.jpg" alt="Day Trip" />
+                <p class="event-date">October 25, 2023</p>
+                <p class="event-description">The first photo I took of you.</p>
             </div>
+
+            <div class="timeline-event" onclick="openImage('moment5.jpg')">
+                <img src="moment5.jpg" alt="Day Trip" />
+                <p class="event-date">November 25, 2023</p>
+                <p class="event-description">Our first photo together.</p>
+            </div>
+
+            <div class="timeline-event" onclick="openImage('moment7.jpg')">
+                <img src="moment7.jpg" alt="Day Trip" />
+                <p class="event-date">November 3, 2023</p>
+                <p class="event-description">Remember the ideathon?</p>
+            </div>
+
             <div class="timeline-event" onclick="openImage('moment6.mp4')">
-                <p class="event-date">december 9, 2023</p>
-                <p class="event-description">librerl studies was fun right??</p>
-                <video width="100%" height="auto" controls >
+                <video width="100%" controls>
                     <source src="moment6.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
-            <!-- Add more timeline events with images as needed -->
+                <p class="event-date">December 9, 2023</p>
+                <p class="event-description">Liberal studies were fun, right?</p>
+            </div>
         </div>
 
-
-
         <p>May our journey continue to be filled with enchanting moments and boundless love.</p>
-        <p class="signature">Warm regards,<br>manoj l</p>
+        <p class="signature">Warm regards,<br>Manoj L</p>
     </div>
 
     <script>
@@ -243,56 +213,7 @@
         function openImage(imageUrl) {
             window.open(imageUrl, '_blank');
         }
-		
-        // Array of GIF URLs
-        var gifs = [
-            "https://media1.tenor.com/m/tYS9bZHRNdgAAAAC/kristigocouple2024.gif",
-            "https://media.tenor.com/qzfYux1DBlAAAAAi/bear-cute.gif",
-            "https://media.tenor.com/vmvaMX3F-3IAAAAi/hehehehe.gif",
-            "https://media.tenor.com/uSUkySupnnUAAAAi/tkthao219-bubududu.gif",
-            "https://media.tenor.com/D1CAg1rBD6wAAAAi/tkthao219-bubududu.gif",
-            "https://media1.tenor.com/m/xQ-hL2dacr8AAAAC/give-me-attention-love-me.gif",
-            "https://media1.tenor.com/m/eSEYqdIvFPYAAAAC/mocha-and-milk-milk-and-mocha-bear.gif"
-        ];
-
-        // Function to shuffle array
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        // Shuffle the GIF array
-        gifs = shuffleArray(gifs);
-
-        // Append GIFs to each timeline event
-        var timelineContainer = document.getElementById("timelineContainer");
-        var timelineEvents = timelineContainer.getElementsByClassName("timeline-event");
-
-        for (var i = 0; i < timelineEvents.length; i++) {
-            // Create a div for each corner
-            for (var j = 0; j < 4; j++) {
-                var cornerDiv = document.createElement("div");
-                cornerDiv.className = "gif-corner";
-                cornerDiv.style.top = j < 2 ? "0" : "auto";
-                cornerDiv.style.bottom = j < 2 ? "auto" : "0";
-                cornerDiv.style.left = j % 2 === 0 ? "0" : "auto";
-                cornerDiv.style.right = j % 2 === 0 ? "auto" : "0";
-
-                // Append a GIF to each corner
-                var img = document.createElement("img");
-                img.src = gifs[i % gifs.length];
-                img.alt = "GIF";
-                img.className = "corner-gif";
-                cornerDiv.appendChild(img);
-
-                timelineEvents[i].appendChild(cornerDiv);
-            }
-        }
     </script>
 
 </body>
 </html>
-  
