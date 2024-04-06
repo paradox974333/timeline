@@ -157,6 +157,12 @@
         welcomeMessage.style.transition = 'opacity 0.01s ease-out, transform 0.75s ease-out';
         welcomeMessage.style.opacity = 0;
         welcomeMessage.style.transform = 'translateX(-150%)'; // Move off-screen to the left
+	    var audio = new Audio('your-audio-file.mp3');
+            audio.volume = 0.45;
+            audio.play();
+            setTimeout(function() {
+                audio.pause();
+            }, 15000);
     }
 </script>
 
