@@ -5,19 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Journey</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-
         body {
             font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('back.jpg') no-repeat center center fixed;
+            background: url('back.jpg') no-repeat center center fixed;
             background-size: cover;
-            color: #fff;
+            color: #333;
         }
 
         .container {
@@ -26,43 +21,45 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            height: 100vh; /* added 100vh to make it full height */
+            height: 100%;
             overflow: hidden;
-            text-align: center;
         }
 
         #welcome-message {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%) translateY(-50%);
             text-align: center;
             color: #ffffff;
-            font-size: 2rem;
+            font-size: 18px;
             font-weight: bold;
             z-index: 2;
             opacity: 1;
-            transition: opacity 0.5s ease, transform 0.75s ease;
+            transition: opacity 0.5s ease;
         }
 
         #start-button {
             cursor: pointer;
-            background: linear-gradient(45deg, #ff6b6b, #ffcc33);
-            color: #fff;
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            background-color: #ff9900;
+            color: black;
+            padding: 40px 50px;
+            font-size: 19px;
             border: none;
-            border-radius: 50px;
+            border-radius: 25px;
             margin-top: 20px;
             z-index: 3;
             font-weight: bold;
-            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+            background-image: url('love-cute.gif');
+            background-size: cover;
+            text-align: center;
+            line-height: 40px;
         }
 
-        #start-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(255, 153, 0, 0.4);
+        @keyframes glowing {
+            0% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
+            50% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
+            100% { box-shadow: 0 0 15px rgba(255, 153, 0, 0.7); }
         }
 
         .memory-box {
@@ -71,7 +68,7 @@
             border: 2px solid #ff9900;
             border-radius: 15px;
             padding: 20px;
-            margin: 15px;
+            margin: 10px;
             opacity: 0;
             cursor: pointer;
             transition: all 0.5s ease, transform 0.3s ease;
@@ -84,84 +81,30 @@
             font-size: 1rem;
 text-align: center;
         }
-
-       .memory-box:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 20px rgba(255, 153, 0, 0.5);
-        }
-
-        @keyframes glowing {
-            0%, 50%, 100% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
-        }
-
-       .heading {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: #ff99cc;
-            margin-bottom: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-       .centered-image {
-            width: 300px;
-            height: auto;
-            margin-top: 20px;
+        .heading {
+            font-size: 15px;
+            font-weight: bold;
+            color: pink;
+            margin-bottom: 25px;
+            text-align: center;
         }
 
         /* Media query for responsiveness */
         @media (max-width: 600px) {
             #start-button {
-                padding: 10px 20px;
-                font-size: 1rem;
+                padding: 20px 25px;
+                font-size: 16px;
             }
 
-          .memory-box {
-                font-size: 0.8rem;
+            .memory-box {
+                font-size: 14px;
                 padding: 10px;
                 margin: 8px;
             }
 
-          .heading {
-                font-size: 1.2rem;
+            .heading {
+                font-size: 13px;
             }
-
-            #welcome-message h1 {
-                font-size: 1.5rem;
-            }
-
-            #welcome-message p {
-                font-size: 0.8rem;
-            }
-
-          .centered-image {
-                width: 200px;
-            }
-        }
-
-       .memory-box:before {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 153, 0, 0.7);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-       .memory-box:hover:before {
-            opacity: 1;
-        }
-
-       .memory-box p {
-            position: relative;
-            z-index: 1;
         }
     </style>
 </head>
@@ -175,34 +118,35 @@ text-align: center;
         <div id="welcome-message">
             <h1>Welcome to Our Journey!</h1>
             <p>Explore the beautiful memories along the way.</p>
-            <button id="start-button" onclick="showMemoryBoxes()"><i class="fas fa-heart"></i> Click Here</button>
-            <p>If Manoj ever comes across your mind, do visit here 🥺.</p>
-            <img src="welcome.jpg" alt="Welcome Image" class="centered-image">
+            <button id="start-button" onclick="showMemoryBoxes()">Click Here</button>
+            <p>if manoj ever comes across ur mind do visit here🥺.</p>
+            <br>
+            <img src="welcome.jpg" alt="Welcome Image" style="width: 300px; height: auto; position: fixed; bottom: 0; left: -5%; transform: translateX(50%) translateY(350%);">
         </div>
         <h2 class="heading">To Akshata, the girl who effortlessly made every other presence fade away, leaving only her existence in my world. 🌟💖😌</h2>
         <div class="memory-box" onclick="window.open('memory1.html', '_blank')">
-            <p><i class="fas fa-heart"></i> Everything about you 💕💕</p>
+            <p>everything about u💕💕</p>
         </div>
         <div class="memory-box" onclick="window.open('memory6.html', '_blank')">
-            <p><i class="fas fa-comments"></i> Lines of love 😍💕</p>
+            <p>lines of love😍💕</p>
         </div>
         <div class="memory-box" onclick="window.open('memory2.html', '_blank')">
-            <p><i class="fas fa-user"></i> More about you 😍❤️</p>
+            <p>more about u😍❤️</p>
         </div>
         <div class="memory-box" onclick="window.open('memory3.html', '_blank')">
-            <p><i class="fas fa-grin-squint-tears"></i> The feelings I can't express 🥺🥺</p>
+            <p>the feelings i cant express🥺🥺</p>
         </div>
         <div class="memory-box" onclick="window.open('memory4.html', '_blank')">
-            <p><i class="fas fa-camera"></i> Photos I clicked ❤️💕🥺😍</p>
+            <p>photos i clicked❤️💕🥺😍</p>
         </div>
         <div class="memory-box" onclick="window.open('memory7.html', '_blank')">
-            <p><i class="fas fa-history"></i> Memory timeline 💕💕</p>
+            <p>Memory timeline💕💕</p>
         </div>
         <div class="memory-box" onclick="window.open('memory8.pdf', '_blank')">
-            <p><i class="fas fa-book"></i> A lot more about you 😍❤️ (new*)</p>
+            <p>a lot more about u😍❤️(new*)</p>
         </div>
         <div class="memory-box" onclick="window.open('https://paradox098.github.io/valentine.github.io/', '_blank')">
-            <p><i class="fas fa-gift"></i> Valentine's Day proposal website 😍😍</p>
+            <p>valentines day proposal website😍😍</p>
         </div>
     </div>
 
@@ -214,19 +158,20 @@ text-align: center;
                     box.style.opacity = 1;
                 }, index * 500);
             });
-    
+
             var welcomeMessage = document.getElementById('welcome-message');
             welcomeMessage.style.transition = 'opacity 0.01s ease-out, transform 0.75s ease-out';
             welcomeMessage.style.opacity = 0;
             welcomeMessage.style.transform = 'translateX(-150%)'; // Move off-screen to the left
-            var audio = new Audio('your-audio-file.mp3');
-                audio.volume = 0.35;
-                audio.play();
-                setTimeout(function() {
-                    audio.pause();
-                }, 15000);
+
+            // Stop audio after 15 seconds
+            setTimeout(stopAudio, 15000);
+        }
+
+        function stopAudio() {
+            var audio = document.getElementById('background-audio');
+            audio.pause();
         }
     </script>
-    
 </body>
 </html>
