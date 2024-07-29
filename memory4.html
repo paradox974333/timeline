@@ -304,114 +304,137 @@
         ];
             // Add more items here
         
+ const mediaGrid = document.querySelector('.media-grid');
+    const fullscreenView = document.querySelector('.fullscreen-view');
+    const fullscreenContent = document.querySelector('.fullscreen-content');
+    const closeFullscreen = document.querySelector('.close-fullscreen');
 
-        const mediaGrid = document.querySelector('.media-grid');
-        const fullscreenView = document.querySelector('.fullscreen-view');
-        const fullscreenContent = document.querySelector('.fullscreen-content');
-        const closeFullscreen = document.querySelector('.close-fullscreen');
+    function createMediaItem(item) {
+        const mediaItem = document.createElement('div');
+        mediaItem.classList.add('media-item');
 
-        function createMediaItem(item) {
-            const mediaItem = document.createElement('div');
-            mediaItem.classList.add('media-item');
+        const media = item.type === 'video' 
+            ? document.createElement('video')
+            : document.createElement('img');
 
-            const media = item.type === 'video' 
-                ? document.createElement('video')
-                : document.createElement('img');
-
+        if (item.type === 'video') {
             media.src = item.src;
-            if (item.type === 'video') {
-                media.autoplay = true;
-                media.loop = true;
-                media.muted = true;
-                media.playsinline = true;
-            }
-
-            const overlay = document.createElement('div');
-            overlay.classList.add('media-overlay');
-
-            const title = document.createElement('h3');
-            title.classList.add('media-title');
-            title.textContent = item.title;
-
-            overlay.appendChild(title);
-            mediaItem.appendChild(media);
-            mediaItem.appendChild(overlay);
-
-            mediaItem.addEventListener('click', () => openFullscreen(item));
-
-            return mediaItem;
+            media.autoplay = true;
+            media.loop = true;
+            media.muted = true;
+            media.playsinline = true;
+        } else {
+            media.classList.add('lazy');
+            media.src = 'placeholder.jpg'; // Add a small placeholder image
+            media.dataset.src = item.src;
         }
 
-        function openFullscreen(item) {
-            const content = item.type === 'video'
-                ? `<video src="${item.src}" autoplay controls></video>`
-                : `<img src="${item.src}" alt="${item.title}">`;
+        const overlay = document.createElement('div');
+        overlay.classList.add('media-overlay');
 
-            fullscreenContent.innerHTML = content;
-            fullscreenView.classList.add('active');
+        const title = document.createElement('h3');
+        title.classList.add('media-title');
+        title.textContent = item.title;
+
+        overlay.appendChild(title);
+        mediaItem.appendChild(media);
+        mediaItem.appendChild(overlay);
+
+        mediaItem.addEventListener('click', () => openFullscreen(item));
+
+        return mediaItem;
+    }
+
+    function openFullscreen(item) {
+        const content = item.type === 'video'
+            ? `<video src="${item.src}" autoplay controls></video>`
+            : `<img src="${item.src}" alt="${item.title}">`;
+
+        fullscreenContent.innerHTML = content;
+        fullscreenView.classList.add('active');
+    }
+
+    closeFullscreen.addEventListener('click', () => {
+        fullscreenView.classList.remove('active');
+    });
+
+    mediaData.forEach(item => {
+        const mediaItem = createMediaItem(item);
+        mediaGrid.appendChild(mediaItem);
+    });
+
+    // Cursor effect
+    const cursor = document.querySelector('.cursor');
+
+    document.addEventListener('mousemove', e => {
+        cursor.setAttribute("style", "top: "+(e.pageY - 10)+"px; left: "+(e.pageX - 10)+"px;")
+    });
+
+    document.addEventListener('click', () => {
+        cursor.classList.add("expand");
+        setTimeout(() => {
+            cursor.classList.remove("expand");
+        }, 500)
+    });
+
+    // Emoji float effect
+    function createEmoji() {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji-float');
+        emoji.textContent = ['💕', '🥺', '😍'][Math.floor(Math.random() * 2)];
+        emoji.style.left = Math.random() * window.innerWidth + 'px';
+        emoji.style.top = window.innerHeight + 'px';
+        document.body.appendChild(emoji);
+
+        gsap.to(emoji, {
+            y: -window.innerHeight - 100,
+            duration: 10,
+            ease: 'none',
+            onComplete: () => emoji.remove()
+        });
+    }
+
+    setInterval(createEmoji, 2000);
+
+    // GSAP animations
+    gsap.from('.media-item', {
+        opacity: 0,
+        y: 100,
+        stagger: 0.1,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '.media-grid',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: 1
         }
+    });
 
-        closeFullscreen.addEventListener('click', () => {
-            fullscreenView.classList.remove('active');
-        });
-
-        mediaData.forEach(item => {
-            const mediaItem = createMediaItem(item);
-            mediaGrid.appendChild(mediaItem);
-        });
-
-        // Cursor effect
-        const cursor = document.querySelector('.cursor');
-
-        document.addEventListener('mousemove', e => {
-            cursor.setAttribute("style", "top: "+(e.pageY - 10)+"px; left: "+(e.pageX - 10)+"px;")
-        });
-
-        document.addEventListener('click', () => {
-            cursor.classList.add("expand");
-            setTimeout(() => {
-                cursor.classList.remove("expand");
-            }, 500)
-        });
-
-        // Emoji float effect
-        function createEmoji() {
-            const emoji = document.createElement('div');
-            emoji.classList.add('emoji-float');
-            emoji.textContent = ['💕', '🥺', '😍'][Math.floor(Math.random() * 2)];
-            emoji.style.left = Math.random() * window.innerWidth + 'px';
-            emoji.style.top = window.innerHeight + 'px';
-            document.body.appendChild(emoji);
-
-            gsap.to(emoji, {
-                y: -window.innerHeight - 100,
-                duration: 10,
-                ease: 'none',
-                onComplete: () => emoji.remove()
+    // Lazy loading function
+    function lazyLoad() {
+        const lazyMedia = document.querySelectorAll('img.lazy, video.lazy');
+        const mediaObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const media = entry.target;
+                    media.src = media.dataset.src;
+                    media.classList.remove('lazy');
+                    mediaObserver.unobserve(media);
+                }
             });
-        }
-
-        setInterval(createEmoji, 2000);
-
-        // GSAP animations
-        gsap.from('.media-item', {
-            opacity: 0,
-            y: 100,
-            stagger: 0.1,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.media-grid',
-                start: 'top 80%',
-                end: 'bottom 20%',
-                scrub: 1
-            }
         });
 
-        // Remove loading overlay
-        window.addEventListener('load', () => {
-            document.querySelector('.loading-overlay').style.display = 'none';
-        });
-    </script>
+        lazyMedia.forEach(media => mediaObserver.observe(media));
+    }
+
+    // Call lazyLoad after adding media items to the grid
+    lazyLoad();
+
+    // Remove loading overlay
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('.loading-overlay').style.display = 'none';
+    });
+</script>
 </body>
 </html>
