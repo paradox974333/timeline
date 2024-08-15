@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.90">
 	<link rel="manifest" href="/manifest.json">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/add-to-homescreen.min.css">
+<script src="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/add-to-homescreen.min.js"></script>
     <title>Our Journey</title>
     <style>
         body {
@@ -176,5 +178,24 @@ text-align: center;
             audio.pause();
         }
     </script>
+	<script>
+document.addEventListener('DOMContentLoaded', function () { // document.getElementById('addToHomeScreen').addEventListener('click', function () and add <button id="addToHomeScreen">Add to Home Screen</button> somewhere on your page to get a button instead.
+
+ window.AddToHomeScreenInstance = new window.AddToHomeScreen({
+  appName: 'Aardvark',                                   // Name of the app.
+                                                         // Required.
+  appIconUrl: 'apple-touch-icon.png',                    // App icon link (square, at least 40 x 40 pixels).  
+                                                         // Required.
+  assetUrl: 'https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/assets/img/',  // Link to directory of library image assets.
+
+  maxModalDisplayCount: -1                               // If set, the modal will only show this many times.
+                                                         // Optional. Default: -1 (no limit).  (Debugging: Use this.clearModalDisplayCount() to reset the count)
+});
+      
+ ret = window.AddToHomeScreenInstance.show('en');        // show "add-to-homescreen" instructions to user, or do nothing if already added to homescreen
+                                                         // The only argument is the language to show the messages in (currently only 'de', 'en', 'pt' and 'fr' are available).
+});
+</script>
+</body>
 </body>
 </html>
