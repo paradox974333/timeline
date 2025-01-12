@@ -1,442 +1,418 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Avant-Garde Photo Experience</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    body {
+      background: #111;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
 
-    <!-- GSAP for advanced animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    .hint {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 18px;
+      opacity: 0.7;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      text-align: center;
+    }
 
-    <style>
-        :root {
-            --primary-color: #FF6B6B;
-            --secondary-color: #4ECDC4;
-            --background-color: #2C3E50;
-            --text-color: #ECF0F1;
-            --accent-color: #F7DC6F;
-        }
+    .card-stack {
+      width: 300px;
+      height: 450px;
+      position: relative;
+      perspective: 1000px;
+    }
 
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
+    .card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #222;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      cursor: grab;
+      overflow: hidden;
+      transform-origin: center;
+    }
 
-        .gallery-container {
-            max-width: 100%;
-            padding: 0;
-        }
+    .card img, 
+    .card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      border-radius: 20px;
+    }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            color: var(--accent-color);
-            text-align: center;
-            margin: 2rem 0;
-            transform: skew(-5deg);
-            letter-spacing: 3px;
-        }
+    .card.dragging {
+      transition: none;
+    }
 
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            padding: 1rem;
-        }
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      pointer-events: auto;
+    }
 
-        .media-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
+    .play-button::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 12px 0 12px 20px;
+      border-color: transparent transparent transparent white;
+      margin-left: 4px;
+    }
 
-        .media-item img, 
-        .media-item video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .media-item:hover {
-            transform: scale(1.05);
-            z-index: 1;
-        }
-
-        .media-item:hover img,
-        .media-item:hover video {
-            transform: scale(1.1);
-        }
-
-        .media-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 1rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .media-item:hover .media-overlay {
-            opacity: 1;
-        }
-
-        .media-title {
-            color: var(--text-color);
-            font-size: 1.2rem;
-            margin: 0;
-        }
-
-        .emoji-float {
-            position: fixed;
-            font-size: 2rem;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        .cursor::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            position: absolute;
-            border: 2px solid var(--secondary-color);
-            border-radius: 50%;
-            opacity: .5;
-            top: 5px;
-            left: 5px;
-        }
-
-        @keyframes cursorAnim {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(2);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0;
-            }
-        }
-
-        .expand {
-            animation: cursorAnim .5s forwards;
-        }
-
-        .fullscreen-view {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .fullscreen-view.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .fullscreen-content {
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .fullscreen-content img,
-        .fullscreen-content video {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .close-fullscreen {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: var(--text-color);
-            font-size: 2rem;
-            cursor: pointer;
-        }
-
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--background-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--primary-color);
-            border-top: 5px solid var(--secondary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    .card.playing .play-button {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="loading-overlay">
-        <div class="loader"></div>
+  <div class="hint">← Swipe cards →</div>
+  <div class="card-stack">
+    <div class="card" data-type="image">
+      <img src="car1.jpg" alt="Car 1">
     </div>
-
-    <div class="cursor"></div>
-
-    <div class="gallery-container">
-        <h1>your Beautiful photos</h1>
-
-        <div class="media-grid">
-            <!-- Media items will be dynamically added here -->
-        </div>
+    <div class="card" data-type="image">
+      <img src="car2.jpg" alt="Car 2">
     </div>
-
-    <div class="fullscreen-view">
-        <div class="fullscreen-content"></div>
-        <div class="close-fullscreen">&times;</div>
+    <div class="card" data-type="image">
+      <img src="car3.jpg" alt="Car 3">
     </div>
+    <div class="card" data-type="image">
+      <img src="car4.jpg" alt="Car 4">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car5.jpg" alt="Car 5">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car6.jpg" alt="Car 6">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car7.jpg" alt="Car 7">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car8.jpg" alt="Car 8">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car9.jpg" alt="Car 9">
+    </div>
+    <div class="card" data-type="video">
+      <video src="car10.mp4" loop muted>
+        Your browser does not support the video tag.
+      </video>
+      <div class="play-button"></div>
+    </div>
+    <div class="card" data-type="image">
+      <img src="car11.jpg" alt="Car 11">
+    </div>
+    <div class="card" data-type="video">
+      <video src="car12.mp4" loop muted>
+        Your browser does not support the video tag.
+      </video>
+      <div class="play-button"></div>
+    </div>
+    <div class="card" data-type="image">
+      <img src="car13.jpg" alt="Car 13">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car14.jpg" alt="Car 14">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car15.jpg" alt="Car 15">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car16.jpg" alt="Car 16">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car17.jpg" alt="Car 17">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car18.jpg" alt="Car 18">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car19.jpg" alt="Car 19">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car20.jpg" alt="Car 20">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car21.jpg" alt="Car 21">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car22.jpg" alt="Car 22">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car23.jpg" alt="Car 23">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car24.jpg" alt="Car 24">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car25.jpg" alt="Car 25">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car26.jpg" alt="Car 26">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car27.jpg" alt="Car 27">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car28.jpg" alt="Car 28">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car29.jpg" alt="Car 29">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car30.jpg" alt="Car 30">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car31.jpg" alt="Car 31">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car32.jpg" alt="Car 32">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car33.jpg" alt="Car 33">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car34.jpg" alt="Car 34">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car35.jpg" alt="Car 35">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car36.jpg" alt="Car 36">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car37.jpg" alt="Car 37">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car38.jpg" alt="Car 38">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car39.jpg" alt="Car 39">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car40.jpg" alt="Car 40">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car41.jpg" alt="Car 41">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car42.jpg" alt="Car 42">
+    </div>
+    <div class="card" data-type="video">
+      <video src="car43.mp4" loop muted>
+        Your browser does not support the video tag.
+      </video>
+      <div class="play-button"></div>
+    </div>
+    <div class="card" data-type="image">
+      <img src="car44.jpg" alt="Car 44">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car45.jpg" alt="Car 45">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car46.jpg" alt="Car 46">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car47.jpg" alt="Car 47">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car48.jpg" alt="Car 48">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car49.jpg" alt="Car 49">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car50.jpg" alt="Car 50">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car51.jpg" alt="Car 51">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car52.jpg" alt="Car 52">
+    </div>
+    <div class="card" data-type="image">
+      <img src="car53.jpg" alt="Car 53">
+    </div>
+    <div class="card" data-type="video">
+      <video src="car54.mp4" loop muted>
+        Your browser does not support the video tag.
+      </video>
+      <div class="play-button"></div>
+    </div>
+    <div class="card" data-type="video">
+      <video src="car55.mp4" loop muted>
+        Your browser does not support the video tag.
+      </video>
+      <div class="play-button"></div>
+    </div>
+    <div class="card" data-type="video">
+      <video src="car56.mp4" loop muted>
+        Your browser does not support the video tag.
+      </video>
+      <div class="play-button"></div>
+    </div>
+</div>
 
-    <script>
-       const mediaData = [
-            { type: 'video', src: 'car43.mp4', title: 'Cruising the City' },
-            { type: 'video', src: 'car10.mp4', title: 'Performance Drive' },
-	 { type: 'video', src: 'car54.mp4', title: 'Refined Performance' },
-	{ type: 'video', src: 'car12.MP4', title: 'Urban Adventure' },
-            { type: 'image', src: 'car1.jpg', title: 'Classic Beauty' },
-            { type: 'image', src: 'car2.jpg', title: 'Sleek Speedster' },
-            { type: 'image', src: 'car3.jpg', title: 'Vintage Charm' },
-            { type: 'image', src: 'car4.jpg', title: 'Modern Marvel' },
-            { type: 'image', src: 'car5.jpg', title: 'Sporty Elegance' },
-            { type: 'image', src: 'car6.jpg', title: 'Luxury Cruiser' },
-            { type: 'image', src: 'car7.jpg', title: 'Bold Design' },
-            { type: 'image', src: 'car8.jpg', title: 'Classic Lines' },
-            { type: 'image', src: 'car9.jpg', title: 'Dynamic Beauty' },
-            { type: 'image', src: 'car11.jpg', title: 'Sleek and Fast' },
-           
-            { type: 'image', src: 'car13.jpg', title: 'Elegance Redefined' },
-			
-            { type: 'image', src: 'car14.jpg', title: 'Chic Ride' },
-            { type: 'image', src: 'car15.jpg', title: 'Refined Style' },
-            { type: 'image', src: 'car16.jpg', title: 'Timeless Appeal' },
-            { type: 'image', src: 'car17.jpg', title: 'Sophisticated Look' },
-            { type: 'image', src: 'car18.jpg', title: 'Powerful Presence' },
-            { type: 'image', src: 'car19.jpg', title: 'Bold and Beautiful' },
-		{ type: 'video', src: 'car55.mp4', title: 'Classic Design' },
-            { type: 'image', src: 'car20.jpg', title: 'Luxury Experience' },
-            { type: 'image', src: 'car21.jpg', title: 'Stunning Details' },
-            { type: 'image', src: 'car22.jpg', title: 'Modern Classic' },
-            { type: 'image', src: 'car23.jpg', title: 'Dynamic Lines' },
-            { type: 'image', src: 'car24.jpg', title: 'Striking Appearance' },
-            { type: 'image', src: 'car25.jpg', title: 'Elegant Design' },
-            { type: 'image', src: 'car26.jpg', title: 'Graceful Lines' },
-            { type: 'image', src: 'car27.jpg', title: 'Luxurious Feel' },
-            { type: 'image', src: 'car28.jpg', title: 'Artistic Flair' },
-            { type: 'image', src: 'car29.jpg', title: 'Classic Vibes' },
-            { type: 'image', src: 'car30.jpg', title: 'Sporty Look' },
-            { type: 'image', src: 'car31.jpg', title: 'Stylish Drive' },
-            { type: 'image', src: 'car32.jpg', title: 'Timeless Beauty' },
-            { type: 'image', src: 'car33.jpg', title: 'Luxury in Motion' },
-            { type: 'image', src: 'car34.jpg', title: 'Sophisticated Ride' },
-            { type: 'image', src: 'car35.jpg', title: 'Modern Luxury' },
-            { type: 'image', src: 'car36.jpg', title: 'Elegant Presence' },
-            { type: 'image', src: 'car37.jpg', title: 'Sleek Design' },
-            { type: 'image', src: 'car38.jpg', title: 'Artful Engineering' },
-            { type: 'image', src: 'car39.jpg', title: 'Dynamic Elegance' },
-            { type: 'image', src: 'car40.jpg', title: 'Powerful Design' },
-            { type: 'image', src: 'car41.jpg', title: 'Classic Touch' },
-            { type: 'image', src: 'car42.jpg', title: 'Luxury Redefined' },
-            { type: 'image', src: 'car44.jpg', title: 'Elegant Lines' },
-            { type: 'image', src: 'car45.jpg', title: 'Sophisticated Charm' },
-            { type: 'image', src: 'car46.jpg', title: 'Powerful Performance' },
-            { type: 'image', src: 'car47.jpg', title: 'Timeless Class' },
-            { type: 'image', src: 'car48.jpg', title: 'Modern Elegance' },
-            { type: 'image', src: 'car49.jpg', title: 'Sleek Luxury' },
-            { type: 'image', src: 'car50.jpg', title: 'Dynamic Appeal' },
-            { type: 'image', src: 'car51.jpg', title: 'Artistic Design' },
-            { type: 'image', src: 'car52.jpg', title: 'Bold Elegance' },
-            { type: 'image', src: 'car53.jpg', title: 'Chic Presence' },
-           
-            
-            { type: 'video', src: 'car56.mp4', title: 'Luxury Performance' }
-        ];
-            // Add more items here
+  <script>
+    const cardStack = document.querySelector('.card-stack');
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const hint = document.querySelector('.hint');
+    let currentIndex = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    // Handle video playback
+    cards.forEach(card => {
+      if (card.dataset.type === 'video') {
+        const video = card.querySelector('video');
+        const playButton = card.querySelector('.play-button');
         
- const mediaGrid = document.querySelector('.media-grid');
-    const fullscreenView = document.querySelector('.fullscreen-view');
-    const fullscreenContent = document.querySelector('.fullscreen-content');
-    const closeFullscreen = document.querySelector('.close-fullscreen');
+        playButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (video.paused) {
+            video.play();
+            card.classList.add('playing');
+          } else {
+            video.pause();
+            card.classList.remove('playing');
+          }
+        });
 
-    function createMediaItem(item) {
-        const mediaItem = document.createElement('div');
-        mediaItem.classList.add('media-item');
+        // Pause video when card is not visible
+        video.addEventListener('ended', () => {
+          card.classList.remove('playing');
+        });
+      }
+    });
 
-        const media = item.type === 'video' 
-            ? document.createElement('video')
-            : document.createElement('img');
+    function updateCardsPosition(offset = 0) {
+      cards.forEach((card, index) => {
+        const distance = index - currentIndex;
+        let x = 0;
+        let scale = 1;
+        let rotation = 0;
+        let opacity = 1;
+        let zIndex = cards.length - Math.abs(distance);
 
-        if (item.type === 'video') {
-            media.src = item.src;
-            media.autoplay = true;
-            media.loop = true;
-            media.muted = true;
-            media.playsinline = true;
+        if (distance === 0) {
+          x = offset;
+          scale = 1;
+          rotation = offset * 0.05;
+        } else if (distance > 0) {
+          x = 40 + (distance - 1) * 10;
+          scale = 0.95 - (distance - 1) * 0.05;
+          rotation = 3;
         } else {
-            media.classList.add('lazy');
-            media.src = 'placeholder.jpg'; // Add a small placeholder image
-            media.dataset.src = item.src;
+          x = -40 + (distance + 1) * 10;
+          scale = 0.95 + (distance + 1) * 0.05;
+          rotation = -3;
         }
 
-        const overlay = document.createElement('div');
-        overlay.classList.add('media-overlay');
+        opacity = Math.abs(distance) <= 2 ? 1 : 0;
 
-        const title = document.createElement('h3');
-        title.classList.add('media-title');
-        title.textContent = item.title;
+        card.style.transform = `translateX(${x}px) scale(${scale}) rotate(${rotation}deg)`;
+        card.style.opacity = opacity;
+        card.style.zIndex = zIndex;
 
-        overlay.appendChild(title);
-        mediaItem.appendChild(media);
-        mediaItem.appendChild(overlay);
-
-        mediaItem.addEventListener('click', () => openFullscreen(item));
-
-        return mediaItem;
-    }
-
-    function openFullscreen(item) {
-        const content = item.type === 'video'
-            ? `<video src="${item.src}" autoplay controls></video>`
-            : `<img src="${item.src}" alt="${item.title}">`;
-
-        fullscreenContent.innerHTML = content;
-        fullscreenView.classList.add('active');
-    }
-
-    closeFullscreen.addEventListener('click', () => {
-        fullscreenView.classList.remove('active');
-    });
-
-    mediaData.forEach(item => {
-        const mediaItem = createMediaItem(item);
-        mediaGrid.appendChild(mediaItem);
-    });
-
-    // Cursor effect
-    const cursor = document.querySelector('.cursor');
-
-    document.addEventListener('mousemove', e => {
-        cursor.setAttribute("style", "top: "+(e.pageY - 10)+"px; left: "+(e.pageX - 10)+"px;")
-    });
-
-    document.addEventListener('click', () => {
-        cursor.classList.add("expand");
-        setTimeout(() => {
-            cursor.classList.remove("expand");
-        }, 500)
-    });
-
-    // Emoji float effect
-    function createEmoji() {
-        const emoji = document.createElement('div');
-        emoji.classList.add('emoji-float');
-        emoji.textContent = ['💕', '🥺', '😍'][Math.floor(Math.random() * 2)];
-        emoji.style.left = Math.random() * window.innerWidth + 'px';
-        emoji.style.top = window.innerHeight + 'px';
-        document.body.appendChild(emoji);
-
-        gsap.to(emoji, {
-            y: -window.innerHeight - 100,
-            duration: 10,
-            ease: 'none',
-            onComplete: () => emoji.remove()
-        });
-    }
-
-    setInterval(createEmoji, 2000);
-
-    // GSAP animations
-    gsap.from('.media-item', {
-        opacity: 0,
-        y: 100,
-        stagger: 0.1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-            trigger: '.media-grid',
-            start: 'top 80%',
-            end: 'bottom 20%',
-            scrub: 1
+        // Pause videos that are not currently visible
+        if (card.dataset.type === 'video') {
+          const video = card.querySelector('video');
+          if (Math.abs(distance) > 0 && !video.paused) {
+            video.pause();
+            card.classList.remove('playing');
+          }
         }
-    });
-
-    // Lazy loading function
-    function lazyLoad() {
-        const lazyMedia = document.querySelectorAll('img.lazy, video.lazy');
-        const mediaObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const media = entry.target;
-                    media.src = media.dataset.src;
-                    media.classList.remove('lazy');
-                    mediaObserver.unobserve(media);
-                }
-            });
-        });
-
-        lazyMedia.forEach(media => mediaObserver.observe(media));
+      });
     }
 
-    // Call lazyLoad after adding media items to the grid
-    lazyLoad();
+    function handleStart(e) {
+      if (currentIndex < 0 || currentIndex >= cards.length) return;
+      isDragging = true;
+      startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+      currentX = startX;
+      
+      const currentCard = cards[currentIndex];
+      if (currentCard) {
+        currentCard.classList.add('dragging');
+      }
+      
+      hint.style.opacity = '0';
+    }
 
-    // Remove loading overlay
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('.loading-overlay').style.display = 'none';
-    });
-</script>
+    function handleMove(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+      const diff = currentX - startX;
+      
+      updateCardsPosition(diff);
+    }
+
+    function handleEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const currentCard = cards[currentIndex];
+      if (currentCard) {
+        currentCard.classList.remove('dragging');
+      }
+
+      const diff = currentX - startX;
+      const threshold = 100;
+
+      if (Math.abs(diff) > threshold) {
+        currentIndex += diff > 0 ? -1 : 1;
+        currentIndex = Math.max(0, Math.min(currentIndex, cards.length - 1));
+      }
+
+      updateCardsPosition(0);
+    }
+
+    cardStack.addEventListener('mousedown', handleStart);
+    cardStack.addEventListener('mousemove', handleMove);
+    cardStack.addEventListener('mouseup', handleEnd);
+    cardStack.addEventListener('mouseleave', handleEnd);
+    cardStack.addEventListener('touchstart', handleStart);
+    cardStack.addEventListener('touchmove', handleMove);
+    cardStack.addEventListener('touchend', handleEnd);
+    cardStack.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+    updateCardsPosition(0);
+  </script>
 </body>
 </html>
