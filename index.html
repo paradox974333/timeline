@@ -3,110 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.90">
-	<link rel="manifest" href="/manifest.json">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/add-to-homescreen.min.css">
-<script src="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/add-to-homescreen.min.js"></script>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/add-to-homescreen.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/add-to-homescreen.min.js"></script>
     <title>Our Journey</title>
     <style>
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100vh;
             overflow: hidden;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
             background: url('back.jpg') no-repeat center center fixed;
             background-size: cover;
-            color: #333;
+            color: #fff;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(0, 0, 0, 0.4),
+                rgba(0, 0, 0, 0.6)
+            );
+            z-index: 1;
         }
 
         .container {
             position: relative;
+            height: 100vh;
+            width: 100vw;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            height: 100%;
-            overflow: hidden;
+            z-index: 2;
+            padding: 1rem;
         }
 
         #welcome-message {
-            position: absolute;
-            top: 50%;
+            position: fixed;
+            top: 60%;
             left: 50%;
-            transform: translateX(-50%) translateY(-50%);
+            transform: translate(-50%, -50%);
             text-align: center;
             color: #ffffff;
-            font-size: 18px;
-            font-weight: bold;
-            z-index: 2;
-            opacity: 1;
-            transition: opacity 0.5s ease;
+            z-index: 10;
+            width: 90%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #welcome-message h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #ff9ecd, #ff9900);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #welcome-message p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         #start-button {
             cursor: pointer;
-            background-color: #ff9900;
-            color: #ffffff78;
-            padding: 40px 50px;
-            font-size: 19px;
-            border: none;
-            border-radius: 25px;
-            margin-top: 20px;
-            z-index: 3;
-            font-weight: bold;
             background-image: url('a.webp');
             background-size: cover;
-            text-align: center;
-            line-height: 85px;
+            background-position: center;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 30px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+            min-height: 90px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+            line-height: 75px;
         }
 
-        @keyframes glowing {
-            0% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
-            50% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.7); }
-            100% { box-shadow: 0 0 15px rgba(255, 153, 0, 0.7); }
+        #start-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 153, 0, 0.4);
+        }
+
+        .heading {
+            font-size: 1.3rem;
+            color: #ff9ecd;
+            margin: 1rem 0;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 900px;
+            margin: 1rem auto;
+            padding: 0 1rem;
         }
 
         .memory-box {
-            position: relative;
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #ff9900;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 1.5rem;
             opacity: 0;
             cursor: pointer;
-            transition: all 0.5s ease, transform 0.3s ease;
-            transform: translateX(0);
-            pointer-events: auto;
-            animation: glowing 2s infinite;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            color: white;
-            backdrop-filter: blur(5px);
-            font-size: 1rem;
-text-align: center;
-        }
-        .heading {
-            font-size: 15px;
-            font-weight: bold;
-            color: pink;
-            margin-bottom: 25px;
-            text-align: center;
+            transition: all 0.4s ease;
+            transform: translateY(30px);
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Media query for responsiveness */
-        @media (max-width: 600px) {
-            #start-button {
-                padding: 20px 25px;
-                font-size: 16px;
+        @keyframes glowing {
+            0% { box-shadow: 0 0 15px rgba(255, 153, 0, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(255, 153, 0, 0.4); }
+        }
+
+        .memory-box {
+            animation: glowing 3s infinite;
+        }
+
+        .memory-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ff9900;
+        }
+
+        .memory-box p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .memory-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
-            .memory-box {
-                font-size: 14px;
-                padding: 10px;
-                margin: 8px;
+            #welcome-message h1 {
+                font-size: 1.8rem;
+            }
+
+            #welcome-message p {
+                font-size: 0.9rem;
+            }
+
+            #start-button {
+                padding: 25px 35px;
+                font-size: 16px;
+                min-height: 80px;
+                line-height: 65px;
             }
 
             .heading {
-                font-size: 13px;
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            .memory-box {
+                height: 80px;
+                padding: 1rem;
+            }
+
+            .memory-box p {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -114,77 +214,76 @@ text-align: center;
 <body>
     <audio id="background-audio" autoplay="autoplay" loop="loop">
         <source src="your-audio-file.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
     </audio>
 
     <div class="container">
         <div id="welcome-message">
             <h1>Welcome to Our Journey!</h1>
             <p>Explore the beautiful memories along the way.</p>
-            <button id="start-button" onclick="showMemoryBoxes()">Click Here</button>
+            <button id="start-button">Begin Our Story</button>
             <p>IF MANOJ EVER CROSSES YOUR MIND, PLEASE LET YOUR HEART GUIDE YOU BACK HERE 🥺❤️💕💘</p>
-            <br>
-            
-        </div>
-        <h2 class="heading">To Akshata, the girl who effortlessly made every other presence fade away, leaving only her existence in my world. 🌟💖😌</h2>
-        <div class="memory-box" onclick="window.open('Safari_merged_compressed%20(1).pdf', '_blank')">
-            <p>the 10000words i tried to express my feelings</p>
-        </div>
-       
-        <div class="memory-box" onclick="window.open('memory4.html', '_blank')">
-            <p>photos i clicked❤️💕🥺😍</p>
-        </div>
-        <div class="memory-box" onclick="window.open('memory7.html', '_blank')">
-            <p>Memory timeline💕💕</p>
-        </div>
-       
-        <div class="memory-box" onclick="window.open('https://paradox098.github.io/valentine.github.io/', '_blank')">
-            <p>valentines day proposal website😍😍</p>
         </div>
         
+        <h2 class="heading">To Akshata, the girl who effortlessly made every other presence fade away, leaving only her existence in my world. 🌟💖😌</h2>
+        
+        <div class="memory-grid">
+            <div class="memory-box" onclick="window.open('Safari_merged_compressed%20(1).pdf', '_blank')">
+                <p>The 10,000 Words I Tried to Express My Feelings 💌</p>
+            </div>
+            
+            <div class="memory-box" onclick="window.open('memory4.html', '_blank')">
+                <p>Photos I Clicked With Love ❤️📸</p>
+            </div>
+            
+            <div class="memory-box" onclick="window.open('memory7.html', '_blank')">
+                <p>Our Memory Timeline 💕✨</p>
+            </div>
+            
+            <div class="memory-box" onclick="window.open('https://paradox098.github.io/valentine.github.io/', '_blank')">
+                <p>Valentine's Day Proposal Website 💝</p>
+            </div>
+        </div>
     </div>
 
     <script>
+        document.getElementById('start-button').addEventListener('click', showMemoryBoxes);
+
         function showMemoryBoxes() {
-            var memoryBoxes = document.querySelectorAll('.memory-box');
-            memoryBoxes.forEach(function (box, index) {
-                setTimeout(function () {
-                    box.style.opacity = 1;
-                }, index * 500);
-            });
+            const memoryBoxes = document.querySelectorAll('.memory-box');
+            const welcomeMessage = document.getElementById('welcome-message');
+            
+            welcomeMessage.style.opacity = '0';
+            welcomeMessage.style.transform = 'translate(-50%, -60%) scale(0.9)';
+            
+            setTimeout(() => {
+                welcomeMessage.style.display = 'none';
+                
+                memoryBoxes.forEach((box, index) => {
+                    setTimeout(() => {
+                        box.style.opacity = '1';
+                        box.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+            }, 800);
 
-            var welcomeMessage = document.getElementById('welcome-message');
-            welcomeMessage.style.transition = 'opacity 0.01s ease-out, transform 0.75s ease-out';
-            welcomeMessage.style.opacity = 0;
-            welcomeMessage.style.transform = 'translateX(-150%)'; // Move off-screen to the left
-
-            // Stop audio after 15 seconds
             setTimeout(stopAudio, 15000);
         }
 
         function stopAudio() {
-            var audio = document.getElementById('background-audio');
+            const audio = document.getElementById('background-audio');
             audio.pause();
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.AddToHomeScreenInstance = new window.AddToHomeScreen({
+                appName: 'OUR MEMORY',
+                appIconUrl: 'icon.png',
+                assetUrl: 'https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/assets/img/',
+                maxModalDisplayCount: -1
+            });
+            
+            window.AddToHomeScreenInstance.show('en');
+        });
     </script>
-	<script>
-document.addEventListener('DOMContentLoaded', function () { // document.getElementById('addToHomeScreen').addEventListener('click', function () and add <button id="addToHomeScreen">Add to Home Screen</button> somewhere on your page to get a button instead.
-
- window.AddToHomeScreenInstance = new window.AddToHomeScreen({
-  appName: 'OUR MEMORY',                                   // Name of the app.
-                                                         // Required.
-  appIconUrl: 'icon.png',                    // App icon link (square, at least 40 x 40 pixels).  
-                                                         // Required.
-  assetUrl: 'https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@1.8/dist/assets/img/',  // Link to directory of library image assets.
-
-  maxModalDisplayCount: -1                               // If set, the modal will only show this many times.
-                                                         // Optional. Default: -1 (no limit).  (Debugging: Use this.clearModalDisplayCount() to reset the count)
-});
-      
- ret = window.AddToHomeScreenInstance.show('en');        // show "add-to-homescreen" instructions to user, or do nothing if already added to homescreen
-                                                         // The only argument is the language to show the messages in (currently only 'de', 'en', 'pt' and 'fr' are available).
-});
-</script>
-</body>
 </body>
 </html>
