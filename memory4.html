@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Stack</title>
   <style>
     * {
       margin: 0;
@@ -32,8 +35,9 @@
     }
 
     .card-stack {
-      width: 300px;
-      height: 450px;
+      width: 90%;
+      max-width: 350px;
+      height: 75%;
       position: relative;
       perspective: 1000px;
     }
@@ -92,6 +96,47 @@
 
     .card.playing .play-button {
       display: none;
+    }
+
+    /* Responsive design adjustments */
+    @media (max-width: 600px) {
+      .card-stack {
+        max-width: 90%;
+        height: 80%;
+      }
+
+      .card {
+        border-radius: 15px;
+      }
+
+      .hint {
+        font-size: 16px;
+      }
+
+      .play-button {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .card-stack {
+        max-width: 90%;
+        height: 75%;
+      }
+
+      .card {
+        border-radius: 10px;
+      }
+
+      .play-button {
+        width: 40px;
+        height: 40px;
+      }
+
+      .hint {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -285,6 +330,7 @@
       <div class="play-button"></div>
     </div>
 </div>
+  </div>
 
   <script>
     const cardStack = document.querySelector('.card-stack');
