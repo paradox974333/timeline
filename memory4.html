@@ -74,6 +74,46 @@
       opacity: 1;
     }
 
+    .card.loading {
+      background: #333;
+    }
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px;
+      height: 48px;
+      display: none;
+      z-index: 2;
+    }
+
+    .card.loading .loader {
+      display: block;
+    }
+
+    .loader::after {
+      content: '';
+      width: 48px;
+      height: 48px;
+      border: 3px solid #fff;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
     .card.preload-card {
       opacity: 0.1;
       background: #444;
@@ -89,7 +129,8 @@
       transition: opacity 0.3s ease;
     }
 
-    .card.loading img {
+    .card.loading img,
+    .card.loading video {
       opacity: 0;
     }
 
@@ -111,6 +152,7 @@
       justify-content: center;
       cursor: pointer;
       pointer-events: auto;
+      z-index: 3;
     }
 
     .play-button::after {
@@ -125,6 +167,24 @@
 
     .card.playing .play-button {
       display: none;
+    }
+
+    .loading-progress {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 4px 12px;
+      border-radius: 12px;
+      display: none;
+      z-index: 2;
+    }
+
+    .card.loading .loading-progress {
+      display: block;
     }
 
     @media (max-width: 600px) {
@@ -184,6 +244,21 @@
             continue;
           }
 
+          // Create and update progress display
+          let progress = card.querySelector('.loading-progress');
+          if (!progress) {
+            progress = document.createElement('div');
+            progress.className = 'loading-progress';
+            card.appendChild(progress);
+          }
+          progress.textContent = 'Loading...';
+
+          if (media.tagName === 'VIDEO') {
+            media.addEventListener('loadedmetadata', () => {
+              progress.textContent = 'Ready to play';
+            });
+          }
+
           media.onload = () => this.handleLoad(card);
           media.onerror = () => this.handleError(card);
           media.src = media.dataset.src;
@@ -195,24 +270,30 @@
         this.loading.delete(card);
         this.loaded.add(card);
         card.classList.remove('loading');
+        const progress = card.querySelector('.loading-progress');
+        if (progress) {
+          progress.remove();
+        }
         this.processQueue();
       }
 
       handleError(card) {
         this.loading.delete(card);
         card.classList.remove('loading');
+        const progress = card.querySelector('.loading-progress');
+        if (progress) {
+          progress.textContent = 'Error loading media';
+          setTimeout(() => progress.remove(), 2000);
+        }
         this.processQueue();
       }
 
       prioritize(cards) {
-        // Clear non-priority items from queue
         for (const card of this.loadQueue) {
           if (!cards.includes(card)) {
             this.loadQueue.delete(card);
           }
         }
-        
-        // Add priority items to queue
         cards.forEach(card => this.addToQueue(card));
       }
     }
@@ -232,6 +313,11 @@
       const card = document.createElement('div');
       card.className = 'card loading';
       card.dataset.type = data.type;
+
+      // Add loader spinner
+      const loader = document.createElement('div');
+      loader.className = 'loader';
+      card.appendChild(loader);
 
       if (data.type === 'image') {
         const img = document.createElement('img');
@@ -254,6 +340,7 @@
       return card;
     });
 
+    // ... rest of the code remains exactly the same ...
     let currentIndex = 0;
     let startX = 0;
     let currentX = 0;
@@ -271,7 +358,6 @@
         const preloadStart = Math.max(0, currentIndex - PRELOAD_RANGE);
         const preloadEnd = Math.min(cards.length, currentIndex + PRELOAD_RANGE + 1);
 
-        // Prioritize loading for visible and nearby cards
         const priorityCards = cards.slice(preloadStart, preloadEnd);
         mediaLoader.prioritize(priorityCards);
 
