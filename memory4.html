@@ -40,6 +40,7 @@
       height: 75%;
       position: relative;
       perspective: 1000px;
+      will-change: transform;
     }
 
     .card {
@@ -49,10 +50,19 @@
       background: #222;
       border-radius: 20px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
       cursor: grab;
       overflow: hidden;
       transform-origin: center;
+      will-change: transform, opacity;
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .card.visible {
+      visibility: visible;
+      opacity: 1;
     }
 
     .card img, 
@@ -98,138 +108,190 @@
       display: none;
     }
 
-    /* Responsive design adjustments */
     @media (max-width: 600px) {
       .card-stack {
         max-width: 90%;
         height: 80%;
       }
-
       .card {
         border-radius: 15px;
       }
-
       .hint {
         font-size: 16px;
       }
-
       .play-button {
         width: 50px;
         height: 50px;
-      }
-    }
-
-    @media (max-width: 400px) {
-      .card-stack {
-        max-width: 90%;
-        height: 75%;
-      }
-
-      .card {
-        border-radius: 10px;
-      }
-
-      .play-button {
-        width: 40px;
-        height: 40px;
-      }
-
-      .hint {
-        font-size: 14px;
       }
     }
   </style>
 </head>
 <body>
   <div class="hint">← Swipe cards →</div>
-  <div class="card-stack">
-    <!-- Cards (Image and Video) -->
-    <div class="card" data-type="image"><img src="car1.jpg" alt="Car 1"></div>
-    <div class="card" data-type="image"><img src="car2.jpg" alt="Car 2"></div>
-    <div class="card" data-type="image"><img src="car3.jpg" alt="Car 3"></div>
-    <div class="card" data-type="image"><img src="car4.jpg" alt="Car 4"></div>
-    <div class="card" data-type="image"><img src="car5.jpg" alt="Car 5"></div>
-    <div class="card" data-type="image"><img src="car6.jpg" alt="Car 6"></div>
-    <div class="card" data-type="image"><img src="car7.jpg" alt="Car 7"></div>
-    <div class="card" data-type="image"><img src="car8.jpg" alt="Car 8"></div>
-    <div class="card" data-type="image"><img src="car9.jpg" alt="Car 9"></div>
-    <div class="card" data-type="video">
-      <video src="car10.mp4" loop muted>Your browser does not support the video tag.</video>
-      <div class="play-button"></div>
-    </div>
-    <div class="card" data-type="image"><img src="car11.jpg" alt="Car 11"></div>
-    <div class="card" data-type="video">
-      <video src="car12.mp4" loop muted>Your browser does not support the video tag.</video>
-      <div class="play-button"></div>
-    </div>
-    <div class="card" data-type="image"><img src="car13.jpg" alt="Car 13"></div>
-    <div class="card" data-type="image"><img src="car14.jpg" alt="Car 14"></div>
-    <div class="card" data-type="image"><img src="car15.jpg" alt="Car 15"></div>
-    <div class="card" data-type="image"><img src="car16.jpg" alt="Car 16"></div>
-    <div class="card" data-type="image"><img src="car17.jpg" alt="Car 17"></div>
-    <div class="card" data-type="image"><img src="car18.jpg" alt="Car 18"></div>
-    <div class="card" data-type="image"><img src="car19.jpg" alt="Car 19"></div>
-    <div class="card" data-type="image"><img src="car20.jpg" alt="Car 20"></div>
-    <div class="card" data-type="image"><img src="car21.jpg" alt="Car 21"></div>
-    <div class="card" data-type="image"><img src="car22.jpg" alt="Car 22"></div>
-    <div class="card" data-type="image"><img src="car23.jpg" alt="Car 23"></div>
-    <div class="card" data-type="image"><img src="car24.jpg" alt="Car 24"></div>
-    <div class="card" data-type="image"><img src="car25.jpg" alt="Car 25"></div>
-    <div class="card" data-type="image"><img src="car26.jpg" alt="Car 26"></div>
-    <div class="card" data-type="image"><img src="car27.jpg" alt="Car 27"></div>
-    <div class="card" data-type="image"><img src="car28.jpg" alt="Car 28"></div>
-    <div class="card" data-type="image"><img src="car29.jpg" alt="Car 29"></div>
-    <div class="card" data-type="image"><img src="car30.jpg" alt="Car 30"></div>
-    <div class="card" data-type="image"><img src="car31.jpg" alt="Car 31"></div>
-    <div class="card" data-type="image"><img src="car32.jpg" alt="Car 32"></div>
-    <div class="card" data-type="image"><img src="car33.jpg" alt="Car 33"></div>
-    <div class="card" data-type="image"><img src="car34.jpg" alt="Car 34"></div>
-    <div class="card" data-type="image"><img src="car35.jpg" alt="Car 35"></div>
-    <div class="card" data-type="image"><img src="car36.jpg" alt="Car 36"></div>
-    <div class="card" data-type="image"><img src="car37.jpg" alt="Car 37"></div>
-    <div class="card" data-type="image"><img src="car38.jpg" alt="Car 38"></div>
-    <div class="card" data-type="image"><img src="car39.jpg" alt="Car 39"></div>
-    <div class="card" data-type="image"><img src="car40.jpg" alt="Car 40"></div>
-    <div class="card" data-type="image"><img src="car41.jpg" alt="Car 41"></div>
-    <div class="card" data-type="image"><img src="car42.jpg" alt="Car 42"></div>
-    <div class="card" data-type="video">
-      <video src="car43.mp4" loop muted>Your browser does not support the video tag.</video>
-      <div class="play-button"></div>
-    </div>
-    <div class="card" data-type="image"><img src="car44.jpg" alt="Car 44"></div>
-    <div class="card" data-type="image"><img src="car45.jpg" alt="Car 45"></div>
-    <div class="card" data-type="image"><img src="car46.jpg" alt="Car 46"></div>
-    <div class="card" data-type="image"><img src="car47.jpg" alt="Car 47"></div>
-    <div class="card" data-type="image"><img src="car48.jpg" alt="Car 48"></div>
-    <div class="card" data-type="image"><img src="car49.jpg" alt="Car 49"></div>
-    <div class="card" data-type="image"><img src="car50.jpg" alt="Car 50"></div>
-    <div class="card" data-type="image"><img src="car51.jpg" alt="Car 51"></div>
-    <div class="card" data-type="image"><img src="car52.jpg" alt="Car 52"></div>
-    <div class="card" data-type="image"><img src="car53.jpg" alt="Car 53"></div>
-    <div class="card" data-type="video">
-      <video src="car54.mp4" loop muted>Your browser does not support the video tag.</video>
-      <div class="play-button"></div>
-    </div>
-    <div class="card" data-type="video">
-      <video src="car55.mp4" loop muted>Your browser does not support the video tag.</video>
-      <div class="play-button"></div>
-    </div>
-    <div class="card" data-type="video">
-      <video src="car56.mp4" loop muted>Your browser does not support the video tag.</video>
-      <div class="play-button"></div>
-    </div>
-  </div>
+  <div class="card-stack" id="cardStack"></div>
 
   <script>
-    const cardStack = document.querySelector('.card-stack');
-    const cards = Array.from(document.querySelectorAll('.card'));
-    const hint = document.querySelector('.hint');
+    // Lazy loading configuration
+    const lazyLoadingObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const media = entry.target.querySelector('img, video');
+          if (media && media.dataset.src) {
+            media.src = media.dataset.src;
+            delete media.dataset.src;
+          }
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '50px',
+      threshold: 0.1
+    });
+
+    // Card data
+    const cardData = Array.from({ length: 56 }, (_, i) => {
+      const index = i + 1;
+      return {
+        type: [10, 12, 43, 54, 55, 56].includes(index) ? 'video' : 'image',
+        src: `car${index}.${[10, 12, 43, 54, 55, 56].includes(index) ? 'mp4' : 'jpg'}`
+      };
+    });
+
+    // Create and append cards
+    const cardStack = document.getElementById('cardStack');
+    const cards = cardData.map((data, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.dataset.type = data.type;
+
+      if (data.type === 'image') {
+        const img = document.createElement('img');
+        img.alt = `Car ${index + 1}`;
+        img.dataset.src = data.src;
+        card.appendChild(img);
+      } else {
+        const video = document.createElement('video');
+        video.loop = true;
+        video.muted = true;
+        video.dataset.src = data.src;
+        const playButton = document.createElement('div');
+        playButton.className = 'play-button';
+        card.appendChild(video);
+        card.appendChild(playButton);
+      }
+
+      cardStack.appendChild(card);
+      lazyLoadingObserver.observe(card);
+      return card;
+    });
+
+    // Card stack logic
     let currentIndex = 0;
     let startX = 0;
     let currentX = 0;
     let isDragging = false;
+    let animationFrame = null;
 
-    // Handle video playback
+    const updateCardsPosition = (offset = 0) => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+
+      animationFrame = requestAnimationFrame(() => {
+        const visibleRange = 3; // Number of visible cards on each side
+        const start = Math.max(0, currentIndex - visibleRange);
+        const end = Math.min(cards.length, currentIndex + visibleRange + 1);
+
+        cards.forEach((card, index) => {
+          if (index < start || index > end) {
+            card.style.visibility = 'hidden';
+            return;
+          }
+
+          const distance = index - currentIndex;
+          let x = 0;
+          let scale = 1;
+          let rotation = 0;
+          let zIndex = cards.length - Math.abs(distance);
+
+          if (distance === 0) {
+            x = offset;
+            scale = 1;
+            rotation = offset * 0.05;
+          } else if (distance > 0) {
+            x = 40 + (distance - 1) * 10;
+            scale = 0.95 - (distance - 1) * 0.05;
+            rotation = 3;
+          } else {
+            x = -40 + (distance + 1) * 10;
+            scale = 0.95 + (distance + 1) * 0.05;
+            rotation = -3;
+          }
+
+          card.style.visibility = 'visible';
+          card.style.transform = `translateX(${x}px) scale(${scale}) rotate(${rotation}deg)`;
+          card.style.zIndex = zIndex;
+
+          // Handle video playback
+          if (card.dataset.type === 'video') {
+            const video = card.querySelector('video');
+            if (Math.abs(distance) > 0 && !video.paused) {
+              video.pause();
+              card.classList.remove('playing');
+            }
+          }
+        });
+      });
+    };
+
+    // Event handlers with throttling
+    let lastDragTime = 0;
+    const dragThrottle = 16; // ~60fps
+
+    const handleStart = (e) => {
+      if (currentIndex < 0 || currentIndex >= cards.length) return;
+      isDragging = true;
+      startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+      currentX = startX;
+      
+      cards[currentIndex].classList.add('dragging');
+      document.querySelector('.hint').style.opacity = '0';
+    };
+
+    const handleMove = (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      const now = Date.now();
+      if (now - lastDragTime < dragThrottle) return;
+      
+      lastDragTime = now;
+      currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+      const diff = currentX - startX;
+      
+      updateCardsPosition(diff);
+    };
+
+    const handleEnd = () => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const currentCard = cards[currentIndex];
+      currentCard.classList.remove('dragging');
+
+      const diff = currentX - startX;
+      const threshold = 100;
+
+      if (Math.abs(diff) > threshold) {
+        currentIndex += diff > 0 ? -1 : 1;
+        currentIndex = Math.max(0, Math.min(currentIndex, cards.length - 1));
+      }
+
+      updateCardsPosition(0);
+    };
+
+    // Video playback handling
     cards.forEach(card => {
       if (card.dataset.type === 'video') {
         const video = card.querySelector('video');
@@ -246,105 +308,22 @@
           }
         });
 
-        // Pause video when card is not visible
         video.addEventListener('ended', () => {
           card.classList.remove('playing');
         });
       }
     });
 
-    function updateCardsPosition(offset = 0) {
-      cards.forEach((card, index) => {
-        const distance = index - currentIndex;
-        let x = 0;
-        let scale = 1;
-        let rotation = 0;
-        let opacity = 1;
-        let zIndex = cards.length - Math.abs(distance);
-
-        if (distance === 0) {
-          x = offset;
-          scale = 1;
-          rotation = offset * 0.05;
-        } else if (distance > 0) {
-          x = 40 + (distance - 1) * 10;
-          scale = 0.95 - (distance - 1) * 0.05;
-          rotation = 3;
-        } else {
-          x = -40 + (distance + 1) * 10;
-          scale = 0.95 + (distance + 1) * 0.05;
-          rotation = -3;
-        }
-
-        opacity = Math.abs(distance) <= 2 ? 1 : 0;
-
-        card.style.transform = `translateX(${x}px) scale(${scale}) rotate(${rotation}deg)`;
-        card.style.opacity = opacity;
-        card.style.zIndex = zIndex;
-
-        // Pause videos that are not currently visible
-        if (card.dataset.type === 'video') {
-          const video = card.querySelector('video');
-          if (Math.abs(distance) > 0 && !video.paused) {
-            video.pause();
-            card.classList.remove('playing');
-          }
-        }
-      });
-    }
-
-    function handleStart(e) {
-      if (currentIndex < 0 || currentIndex >= cards.length) return;
-      isDragging = true;
-      startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-      currentX = startX;
-      
-      const currentCard = cards[currentIndex];
-      if (currentCard) {
-        currentCard.classList.add('dragging');
-      }
-      
-      hint.style.opacity = '0';
-    }
-
-    function handleMove(e) {
-      if (!isDragging) return;
-      e.preventDefault();
-      
-      currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-      const diff = currentX - startX;
-      
-      updateCardsPosition(diff);
-    }
-
-    function handleEnd() {
-      if (!isDragging) return;
-      isDragging = false;
-
-      const currentCard = cards[currentIndex];
-      if (currentCard) {
-        currentCard.classList.remove('dragging');
-      }
-
-      const diff = currentX - startX;
-      const threshold = 100;
-
-      if (Math.abs(diff) > threshold) {
-        currentIndex += diff > 0 ? -1 : 1;
-        currentIndex = Math.max(0, Math.min(currentIndex, cards.length - 1));
-      }
-
-      updateCardsPosition(0);
-    }
-
-    cardStack.addEventListener('mousedown', handleStart);
+    // Event listeners
+    cardStack.addEventListener('mousedown', handleStart, { passive: true });
     cardStack.addEventListener('mousemove', handleMove);
     cardStack.addEventListener('mouseup', handleEnd);
     cardStack.addEventListener('mouseleave', handleEnd);
-    cardStack.addEventListener('touchstart', handleStart);
+    cardStack.addEventListener('touchstart', handleStart, { passive: true });
     cardStack.addEventListener('touchmove', handleMove);
     cardStack.addEventListener('touchend', handleEnd);
 
+    // Initial position
     updateCardsPosition();
   </script>
 </body>
