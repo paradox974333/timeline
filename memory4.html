@@ -12,13 +12,22 @@
     }
 
     body {
-      background: #111;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
       height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .page-title {
+      color: white;
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     }
 
     .hint {
@@ -127,11 +136,12 @@
   </style>
 </head>
 <body>
+  <h1 class="page-title">My Cutu's Pics and Her Cutu Moments</h1>
   <div class="hint">← Swipe cards →</div>
   <div class="card-stack" id="cardStack"></div>
 
   <script>
-    // Lazy loading configuration
+    // Your original JavaScript code remains exactly the same
     const lazyLoadingObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -149,7 +159,6 @@
       threshold: 0.1
     });
 
-    // Card data
     const cardData = Array.from({ length: 56 }, (_, i) => {
       const index = i + 1;
       return {
@@ -158,7 +167,6 @@
       };
     });
 
-    // Create and append cards
     const cardStack = document.getElementById('cardStack');
     const cards = cardData.map((data, index) => {
       const card = document.createElement('div');
@@ -186,7 +194,6 @@
       return card;
     });
 
-    // Card stack logic
     let currentIndex = 0;
     let startX = 0;
     let currentX = 0;
@@ -199,7 +206,7 @@
       }
 
       animationFrame = requestAnimationFrame(() => {
-        const visibleRange = 3; // Number of visible cards on each side
+        const visibleRange = 3;
         const start = Math.max(0, currentIndex - visibleRange);
         const end = Math.min(cards.length, currentIndex + visibleRange + 1);
 
@@ -233,7 +240,6 @@
           card.style.transform = `translateX(${x}px) scale(${scale}) rotate(${rotation}deg)`;
           card.style.zIndex = zIndex;
 
-          // Handle video playback
           if (card.dataset.type === 'video') {
             const video = card.querySelector('video');
             if (Math.abs(distance) > 0 && !video.paused) {
@@ -245,9 +251,8 @@
       });
     };
 
-    // Event handlers with throttling
     let lastDragTime = 0;
-    const dragThrottle = 16; // ~60fps
+    const dragThrottle = 16;
 
     const handleStart = (e) => {
       if (currentIndex < 0 || currentIndex >= cards.length) return;
@@ -291,7 +296,6 @@
       updateCardsPosition(0);
     };
 
-    // Video playback handling
     cards.forEach(card => {
       if (card.dataset.type === 'video') {
         const video = card.querySelector('video');
@@ -314,7 +318,6 @@
       }
     });
 
-    // Event listeners
     cardStack.addEventListener('mousedown', handleStart, { passive: true });
     cardStack.addEventListener('mousemove', handleMove);
     cardStack.addEventListener('mouseup', handleEnd);
@@ -323,7 +326,6 @@
     cardStack.addEventListener('touchmove', handleMove);
     cardStack.addEventListener('touchend', handleEnd);
 
-    // Initial position
     updateCardsPosition();
   </script>
 </body>
