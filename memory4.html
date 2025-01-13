@@ -22,6 +22,61 @@
       font-family: system-ui, -apple-system, sans-serif;
     }
 
+    /* Loader Styles */
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .loader {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      transform: rotate(45deg);
+      animation: loader 1.2s infinite linear;
+    }
+
+    .loader:before,
+    .loader:after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50% 50% 0 50%;
+      background: white;
+      background-size: 50% 50%;
+      animation: flip 2s infinite;
+    }
+
+    .loader:after {
+      animation: flip 2s infinite;
+      transform: rotate(90deg);
+    }
+
+    @keyframes loader {
+      0% { transform: rotate(45deg); }
+      100% { transform: rotate(405deg); }
+    }
+
+    @keyframes flip {
+      0%, 50% { transform: scale(1) rotate(0); }
+      50%, 100% { transform: scale(0.8) rotate(90deg); }
+    }
+
+    .loader-container.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Original Styles */
     .page-title {
       color: white;
       font-size: 24px;
@@ -50,6 +105,12 @@
       position: relative;
       perspective: 1000px;
       will-change: transform;
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .card-stack.visible {
+      opacity: 1;
     }
 
     .card {
@@ -136,18 +197,41 @@
   </style>
 </head>
 <body>
+  <div class="loader-container">
+    <div class="loader"></div>
+  </div>
   <h1 class="page-title">My Cutu's Pics and Her Cutu Moments</h1>
   <div class="hint">← Swipe cards →</div>
   <div class="card-stack" id="cardStack"></div>
 
   <script>
-    // Your original JavaScript code remains exactly the same
+    let loadedCards = 0;
+    const requiredLoadedCards = 3;
+
+    const hideLoader = () => {
+      if (loadedCards >= requiredLoadedCards) {
+        document.querySelector('.loader-container').classList.add('hidden');
+        document.getElementById('cardStack').classList.add('visible');
+      }
+    };
+
     const lazyLoadingObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const media = entry.target.querySelector('img, video');
           if (media && media.dataset.src) {
             media.src = media.dataset.src;
+            if (loadedCards < requiredLoadedCards) {
+              media.onload = () => {
+                loadedCards++;
+                hideLoader();
+              };
+              // For video elements
+              media.onloadeddata = () => {
+                loadedCards++;
+                hideLoader();
+              };
+            }
             delete media.dataset.src;
           }
           entry.target.classList.add('visible');
